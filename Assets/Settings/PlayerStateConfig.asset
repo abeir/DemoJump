@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5007bcdbe51f82748a7567d69566b448, type: 3}
+  m_Name: PlayerStateConfig
+  m_EditorClassIdentifier: 
+  defaultState: 11
+  nodes:
+  - Player.FSM.IdleState
+  - Player.FSM.RunState
+  - Player.FSM.JumpState
+  - Player.FSM.FallState
+  - Player.FSM.DashState
+  - Player.FSM.ClimbState
+  translates:
+  - source: 11
+    target: 12
+  - source: 11
+    target: 13
+  - source: 11
+    target: 14
+  - source: 11
+    target: 15
+  - source: 11
+    target: 17
+  - source: 12
+    target: 11
+  - source: 12
+    target: 13
+  - source: 12
+    target: 14
+  - source: 12
+    target: 15
+  - source: 12
+    target: 17
+  - source: 13
+    target: 11
+  - source: 13
+    target: 12
+  - source: 13
+    target: 14
+  - source: 13
+    target: 15
+  - source: 13
+    target: 17
+  - source: 14
+    target: 11
+  - source: 14
+    target: 12
+  - source: 14
+    target: 13
+  - source: 14
+    target: 15
+  - source: 14
+    target: 17
+  anyTranslates: 
