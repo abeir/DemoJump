@@ -6,7 +6,8 @@ namespace Player.FSM
 {
     public class RunState : AStateBase
     {
-        public static readonly int RunHash = Animator.StringToHash("Run");
+        public static readonly int MoveHash = Animator.StringToHash("Move");
+        public static readonly int VelocityXHash = Animator.StringToHash("VelocityX");
 
 
         private Vector2 _direction = Vector2.zero;
@@ -31,12 +32,12 @@ namespace Player.FSM
 
         public override void OnEnter(StateDefine pre)
         {
-            PlayerController.UnarmedAnimator.SetBool(RunHash, true);
+            PlayerController.UnarmedAnimator.SetBool(MoveHash, true);
         }
 
         public override void OnExit(StateDefine next)
         {
-            PlayerController.UnarmedAnimator.SetBool(RunHash, false);
+            PlayerController.UnarmedAnimator.SetBool(MoveHash, false);
 
             if (Mathf.Abs(PlayerController.MoveDirection.x) > Maths.TinyNum)
             {
@@ -59,6 +60,8 @@ namespace Player.FSM
             _velocity = Time.fixedDeltaTime * PlayerController.speed * _direction;
             
             PlayerController.Rigidbody.velocity = _velocity;
+
+            PlayerController.UnarmedAnimator.SetFloat(VelocityXHash, Mathf.Abs(_velocity.x));
         }
     }
 }

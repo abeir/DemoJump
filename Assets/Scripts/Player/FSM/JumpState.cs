@@ -9,8 +9,6 @@ namespace Player.FSM
         public static readonly int JumpHash = Animator.StringToHash("Jump");
         public static readonly int JumpCountHash = Animator.StringToHash("JumpCount");
 
-        private const int ParamJumpExit = 0;
-
         private Vector2 _velocity = Vector2.zero;
         
         public override StateDefine State { get; } = new StateDefine
@@ -37,13 +35,15 @@ namespace Player.FSM
             
             PlayerController.Rigidbody.AddForce(new Vector2(PlayerController.MoveDirection.x, PlayerController.jumpForce), ForceMode2D.Impulse);
 
-            PlayerController.UnarmedAnimator.SetInteger(JumpHash, PlayerController.JumpCount);
+
+            PlayerController.UnarmedAnimator.SetBool(JumpHash, true);
+            PlayerController.UnarmedAnimator.SetFloat(JumpCountHash, PlayerController.JumpCount);
         }
 
         public override void OnExit(StateDefine next)
         {
             _fallSpeed = 0;
-            PlayerController.UnarmedAnimator.SetInteger(JumpHash, ParamJumpExit);
+            PlayerController.UnarmedAnimator.SetBool(JumpHash, false);
         }
 
         public override void OnStay()
