@@ -23,6 +23,8 @@ namespace Player
         [SerializeField]
         public float jumpForce = 850;     // 跳跃的力量
         [SerializeField]
+        public float doubleJumpForce = 1000;
+        [SerializeField]
         public float jumpDeceleration = 10; // 跳跃时的减速度
         [SerializeField]
         public float maxFallVelocity = 30;      // 最大下落速度

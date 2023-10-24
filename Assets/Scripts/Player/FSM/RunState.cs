@@ -61,7 +61,7 @@ namespace Player.FSM
             
             PlayerController.Rigidbody.velocity = _velocity;
 
-            PlayerController.UnarmedAnimator.SetFloat(VelocityXHash, Mathf.Abs(_velocity.x));
+            PlayerController.UnarmedAnimator.SetFloat(VelocityXHash, Mathf.Abs(PlayerController.MoveDirection.x));
         }
     }
 }

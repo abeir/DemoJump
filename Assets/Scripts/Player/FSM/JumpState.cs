@@ -1,4 +1,5 @@
-﻿using Common.Helper;
+﻿using Common.Event;
+using Common.Helper;
 using FSM;
 using UnityEngine;
 
@@ -32,12 +33,23 @@ namespace Player.FSM
             Debug.Log($">>> OnEnter JumpState  pre:{pre.Name}");
             
             PlayerController.JumpCount = Mathf.Clamp(PlayerController.JumpCount + 1, 0, 2);
-            
-            PlayerController.Rigidbody.AddForce(new Vector2(PlayerController.MoveDirection.x, PlayerController.jumpForce), ForceMode2D.Impulse);
+
+
+            var jumpForce = PlayerController.JumpCount == 2 ? PlayerController.doubleJumpForce : PlayerController.jumpForce;
+            PlayerController.Rigidbody.AddForce(new Vector2(PlayerController.MoveDirection.x, jumpForce), ForceMode2D.Impulse);
 
 
             PlayerController.UnarmedAnimator.SetBool(JumpHash, true);
             PlayerController.UnarmedAnimator.SetFloat(JumpCountHash, PlayerController.JumpCount);
+
+            if (PlayerController.JumpCount == 1)
+            {
+                EventManager.TriggerEvent(new PlayerFxEvent("DustGroup", "JumpDust"));
+            }
+            else if (PlayerController.JumpCount == 2)
+            {
+                EventManager.TriggerEvent(new PlayerFxEvent("DustGroup", "DoubleJumpDust"));
+            }
         }
 
         public override void OnExit(StateDefine next)

@@ -1,4 +1,5 @@
-﻿using FSM;
+﻿using Common.Event;
+using FSM;
 using UnityEngine;
 
 namespace Player.FSM
@@ -31,6 +32,8 @@ namespace Player.FSM
             _velocity = Vector2.zero;
             
             PlayerController.UnarmedAnimator.SetBool(DashHash, true);
+
+            EventManager.TriggerEvent(new PlayerFxEvent("DustGroup", "DashDust"));
         }
 
         public override void OnExit(StateDefine next)
