@@ -1,5 +1,4 @@
-﻿using Common.Event;
-using Common.Helper;
+﻿using Common.Helper;
 using FSM;
 using UnityEngine;
 
@@ -31,7 +30,7 @@ namespace Player.FSM
         public override void OnEnter(StateDefine pre)
         {
             Debug.Log($">>> OnEnter JumpState  pre:{pre.Name}");
-            
+
             PlayerController.JumpCount = Mathf.Clamp(PlayerController.JumpCount + 1, 0, 2);
 
 
@@ -42,13 +41,13 @@ namespace Player.FSM
             PlayerController.UnarmedAnimator.SetBool(JumpHash, true);
             PlayerController.UnarmedAnimator.SetFloat(JumpCountHash, PlayerController.JumpCount);
 
-            if (PlayerController.JumpCount == 1)
+            if (PlayerController.JumpCount == 1 && (PlayerController.PlayerDetector.IsOnGround || PlayerController.PlayerDetector.IsOnSlope))
             {
-                EventManager.TriggerEvent(new PlayerFxEvent("DustGroup", "JumpDust"));
+                PlayerFxEvent.TriggerJumpDust();
             }
             else if (PlayerController.JumpCount == 2)
             {
-                EventManager.TriggerEvent(new PlayerFxEvent("DustGroup", "DoubleJumpDust"));
+                PlayerFxEvent.TriggerDoubleJumpDust();
             }
         }
 
@@ -60,10 +59,34 @@ namespace Player.FSM
 
         public override void OnStay()
         {
-            if (PlayerController.Rigidbody.velocity.y <= Maths.TinyNum)
+            if (PlayerController.PlayerDetector.IsOnAir)
             {
-                StateMachine.Translate((int)PlayerStateID.Fall);
+
+                if (PlayerController.IsVelocityYDown)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Fall);
+                }
+                else if (PlayerController.JumpPressed)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Jump);
+                }
             }
+            else
+            {
+                if (PlayerController.JumpPressed)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Jump);
+                }
+                else if (Mathf.Abs(PlayerController.MoveDirection.x) < Maths.TinyNum)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Idle);
+                }
+                else if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Run);
+                }
+            }
+
             PlayerController.Flip();
         }
         

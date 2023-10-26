@@ -8,6 +8,8 @@ namespace Player
 
     public class PlayerFxEvent : IEvent
     {
+        private const string dustGroupName = "DustGroup";
+
         public string Group { get; }
         public string FX { get; }
 
@@ -15,6 +17,26 @@ namespace Player
         {
             Group = group;
             FX = fx;
+        }
+
+        public static void TriggerJumpDust()
+        {
+            EventManager.TriggerEvent(new PlayerFxEvent(dustGroupName, "JumpDust"));
+        }
+
+        public static void TriggerDoubleJumpDust()
+        {
+            EventManager.TriggerEvent(new PlayerFxEvent(dustGroupName, "DoubleJumpDust"));
+        }
+
+        public static void TriggerDashDust()
+        {
+            EventManager.TriggerEvent(new PlayerFxEvent(dustGroupName, "DashDust"));
+        }
+
+        public static void TriggerLandDust()
+        {
+            EventManager.TriggerEvent(new PlayerFxEvent(dustGroupName, "LandDust"));
         }
     }
 
@@ -26,6 +48,7 @@ namespace Player
             public SpriteRenderer spriteRenderer;
             public Animator animator;
         }
+
 
 
         [SerializeField]
@@ -107,8 +130,6 @@ namespace Player
 
         public void OnAnimationFinished(string group)
         {
-            Debug.Log($" >> OnAnimationFinished: {group}");
-
             Stop(group);
         }
 
@@ -118,12 +139,9 @@ namespace Player
             var clips = animator.runtimeAnimatorController.animationClips;
             foreach (var clip in clips)
             {
-
-                Debug.Log($">>>>>> BindEvent : {clip.name}");
-
                 AnimationEvent evn = new()
                 {
-                    functionName = "OnAnimationGroupFinished",
+                    functionName = PlayerAnimationEventHandler.MethodOnAnimationGroupFinished,
                     stringParameter = animator.gameObject.name,
                     time = clip.length
                 };

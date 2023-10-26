@@ -1,5 +1,4 @@
-﻿using Common.Helper;
-using FSM;
+﻿using FSM;
 using UnityEngine;
 
 namespace Player.FSM
@@ -46,21 +45,34 @@ namespace Player.FSM
             }
 
             _fallSpeed = 0;
+
+            if (next.ID == (int)PlayerStateID.Run)
+            {
+                PlayerFxEvent.TriggerLandDust();
+            }
         }
 
         public override void OnStay()
         {
-            if (PlayerController.PlayerDetector.IsOnGround)
+            if (PlayerController.PlayerDetector.IsOnAir)
             {
-                if (Mathf.Abs(PlayerController.MoveDirection.x) > Maths.TinyNum)
+                if (PlayerController.JumpPressed)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Jump);
+                }
+            }
+            else
+            {
+                if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
                 {
                     StateMachine.Translate((int)PlayerStateID.Run);
                 }
                 else
                 {
-                    StateMachine.Translate((int)PlayerStateID.Idle);
+                    StateMachine.Translate((int)PlayerStateID.Land);
                 }
             }
+
             PlayerController.Flip();
         }
 

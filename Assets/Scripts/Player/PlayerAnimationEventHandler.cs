@@ -6,12 +6,16 @@ namespace Player
     [RequireComponent(typeof(Animator))]
     public class PlayerAnimationEventHandler : MonoBehaviour
     {
+        public static readonly string MethodOnAnimationFinished = nameof(OnAnimationFinished);
+        public static readonly string MethodOnAnimationGroupFinished = nameof(OnAnimationGroupFinished);
+
+
         public UnityAction<string> animationFinishAction;
         public UnityAction<string> animationGroupFinishAction;
 
-        public void OnAnimationFinished(string animationName)
+        public void OnAnimationFinished(string clipName)
         {
-            animationFinishAction?.Invoke(animationName);
+            animationFinishAction?.Invoke(clipName);
         }
 
 

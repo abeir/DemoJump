@@ -10,39 +10,35 @@ namespace Player
 
         [ShowInInspector, ReadOnly]
         public Vector2 MoveDirection { get; private set; }
+        [ShowInInspector, ReadOnly]
+        public bool JumpPressed { get; set; }
 
 
-        private InputType _lockedInputType = InputType.None;
+        private bool _inputGameplayEnable;
+        private float _jumpCacheTime;   // 由于 OnJump 会使 JumpPressed 长时间为true，需要定时重置
 
-        public void LockInputAll()
+
+        public void EnableInputGameplay(bool enable)
         {
-            _lockedInputType = InputType.Move | InputType.Jump | InputType.Dash | InputType.Attack;
+            // 优化，防止重复调用
+            if (_inputGameplayEnable == enable)
+            {
+                return;
+            }
+            _inputGameplayEnable = enable;
+            if (enable)
+            {
+                _inputActions.Gameplay.Enable();
+            }
+            else
+            {
+                _inputActions.Gameplay.Disable();
+            }
         }
 
-        public void UnlockInputAll()
-        {
-            _lockedInputType = InputType.None;
-        }
-        
-        public void LockInput(InputType inputType)
-        {
-            _lockedInputType |= inputType;
-        }
-
-        public void UnlockInput(InputType inputType)
-        {
-            _lockedInputType &= ~inputType;
-        }
-
-        public bool IsLockInput(InputType inputType)
-        {
-            return (_lockedInputType & inputType) > 0;
-        }
-        
-        
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (IsLockInput(InputType.Move))
+            if (InputLock.IsLocked(InputType.Move))
             {
                 return;
             }
@@ -50,35 +46,34 @@ namespace Player
             if (context.performed)
             {
                 MoveDirection = context.ReadValue<Vector2>();
-                _stateMachine.Translate((int)PlayerStateID.Run);
             }
             else if (context.canceled)
             {
                 MoveDirection = context.ReadValue<Vector2>();    
-                _stateMachine.Translate((int)PlayerStateID.Idle);
             }
         }
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (IsLockInput(InputType.Jump))
+            if (InputLock.IsLocked(InputType.Jump))
             {
                 return;
             }
             if (context.performed)
             {
-                _stateMachine.Translate((int)PlayerStateID.Jump);
+                JumpPressed = true;
+                _jumpCacheTime = Time.time;
             }
             else if (context.canceled)
             {
-                _stateMachine.Translate((int)PlayerStateID.Fall);    
+                JumpPressed = false;
             }
         }
 
 
         public void OnDash(InputAction.CallbackContext context)
         {
-            if (IsLockInput(InputType.Dash))
+            if (InputLock.IsLocked(InputType.Dash))
             {
                 return;
             }

@@ -1,16 +1,18 @@
-﻿using Common.Event;
-using FSM;
+﻿using FSM;
 using UnityEngine;
 
 namespace Player.FSM
 {
     public class DashState : AStateBase
     {
+        // 动画参数
         public static readonly int DashHash = Animator.StringToHash("Dash");
+
 
         private float _lastTime;        // 最近一次冲刺时间
         private Vector2 _velocity = Vector2.zero;
-        
+        private int _direction;  // 冲刺方向，正为右负为左
+
         public override StateDefine State => new StateDefine()
         {
             ID = (int)PlayerStateID.Dash,
@@ -28,16 +30,33 @@ namespace Player.FSM
 
         public override void OnEnter(StateDefine pre)
         {
+            Debug.Log($"=== OnEnter: DashState,  {pre.Name} ");
+
             _lastTime = Time.time;
             _velocity = Vector2.zero;
-            
+
+            // 确定冲刺方向
+            if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
+            {
+                _direction = PlayerController.MoveDirection.x > 0 ? 1 : -1;
+            }
+            else
+            {
+                _direction = PlayerController.facingPositive ? 1 : -1;
+            }
+
             PlayerController.UnarmedAnimator.SetBool(DashHash, true);
 
-            EventManager.TriggerEvent(new PlayerFxEvent("DustGroup", "DashDust"));
+            if (PlayerController.PlayerDetector.IsOnGround || PlayerController.PlayerDetector.IsOnSlope)
+            {
+                PlayerFxEvent.TriggerDashDust();
+            }
         }
 
         public override void OnExit(StateDefine next)
         {
+            Debug.Log($"=== OnExit: DashState  {next.Name}");
+
             PlayerController.UnarmedAnimator.SetBool(DashHash, false);
             
             // 修复退出冲刺后仍然会横向移动问题
@@ -47,13 +66,30 @@ namespace Player.FSM
 
         public override void OnStay()
         {
+            if (PlayerController.dashDuration < Time.time - _lastTime)
+            {
+                // Dash 结束
+                if (PlayerController.PlayerDetector.IsOnAir)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Fall);
+                }
+                else if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Run);
+                }
+                else
+                {
+                    StateMachine.Translate((int)PlayerStateID.Idle);
+                }
+            }
         }
 
         public override void OnFixedStay()
         {
-            _velocity.x = Time.fixedDeltaTime * PlayerController.dashSpeed * (PlayerController.facingPositive ? 1 : -1);
+            _velocity.x = Time.fixedDeltaTime * PlayerController.dashSpeed * _direction;
             
             PlayerController.Rigidbody.velocity = _velocity;
         }
+
     }
 }

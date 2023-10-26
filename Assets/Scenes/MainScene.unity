@@ -4104,11 +4104,14 @@ MonoBehaviour:
   speed: 250
   jumpForce: 20
   doubleJumpForce: 25
+  jumpCacheDuration: 0.1
+  coyoteJumpDuration: 0.05
   jumpDeceleration: 10
   maxFallVelocity: 15
   fallAcceleration: 0.1
   dashSpeed: 550
-  dashCoolingTime: 1
+  dashCoolingTime: 0.5
+  dashDuration: 0.3
   debug: 0
 --- !u!1 &1931257799
 GameObject:

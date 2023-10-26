@@ -43,6 +43,26 @@ namespace Player.FSM
 
         public override void OnStay()
         {
+            if (PlayerController.PlayerDetector.IsOnAir)
+            {
+                if (PlayerController.IsVelocityYDown)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Fall);
+                }
+            }
+            else
+            {
+                PlayerController.ResetJumpCount();
+
+                if (PlayerController.JumpPressed)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Jump);
+                }
+                else if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Run);
+                }
+            }
         }
 
         public override void OnFixedStay()

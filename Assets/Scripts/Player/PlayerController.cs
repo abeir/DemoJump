@@ -21,20 +21,26 @@ namespace Player
         [SerializeField]
         public float speed = 250;
         [SerializeField]
-        public float jumpForce = 850;     // 跳跃的力量
+        public float jumpForce = 20;     // 跳跃的力量
         [SerializeField]
-        public float doubleJumpForce = 1000;
+        public float doubleJumpForce = 25;
+        [SerializeField]
+        public float jumpCacheDuration = 0.1f;      // 跳跃键缓存的时长
+        [SerializeField]
+        public float coyoteJumpDuration = 0.05f;     // 土狼跳的持续时间
         [SerializeField]
         public float jumpDeceleration = 10; // 跳跃时的减速度
         [SerializeField]
-        public float maxFallVelocity = 30;      // 最大下落速度
+        public float maxFallVelocity = 15;      // 最大下落速度
         [SerializeField, Range(0f, 0.5f)]
-        public float fallAcceleration = 0.15f;      // 下落加速度
+        public float fallAcceleration = 0.1f;      // 下落加速度
 
         [SerializeField]
-        public float dashSpeed = 400;       // 冲刺速度
+        public float dashSpeed = 550;       // 冲刺速度
         [SerializeField]
-        public float dashCoolingTime = 1f;      // 冲刺冷却时间
+        public float dashCoolingTime = 0.5f;      // 冲刺冷却时间
+        [SerializeField]
+        public float dashDuration = 0.3f;       // 冲刺持续时间
 
 
         [Title("Other")]
@@ -49,7 +55,7 @@ namespace Player
         
         public PlayerDetector PlayerDetector { get; private set; }
         
-        public PlayerAnimationEventHandler PlayerAnimationEventHandler { get; private set; }
+        public PlayerInputLock InputLock { get; private set; }
 
         public int JumpCount { get; set; }      // 跳跃次数
 
@@ -68,12 +74,13 @@ namespace Player
             Collider = unarmedTransform.GetComponent<CapsuleCollider2D>();
             UnarmedAnimator = unarmedTransform.GetComponent<Animator>();
             SpriteRenderer = unarmedTransform.GetComponent<SpriteRenderer>();
-            PlayerAnimationEventHandler = unarmedTransform.GetComponent<PlayerAnimationEventHandler>();
 
             PlayerDetector = GetComponentInChildren<PlayerDetector>();
             
             _inputActions = new InputActions();
             _inputActions.Gameplay.SetCallbacks(this);
+
+            InputLock = new PlayerInputLock();
         }
 
         private void Start()
@@ -83,16 +90,12 @@ namespace Player
 
         private void OnEnable()
         {
-            PlayerAnimationEventHandler.animationFinishAction += OnAnimationFinished;
-            
-            _inputActions.Gameplay.Enable();
+            EnableInputGameplay(true);
         }
 
         private void OnDisable()
         {
-            PlayerAnimationEventHandler.animationFinishAction -= OnAnimationFinished;
-            
-            _inputActions.Gameplay.Disable();
+            EnableInputGameplay(false);
         }
 
         private void OnDestroy()
@@ -102,14 +105,6 @@ namespace Player
 
         private void Update()
         {
-            if (PlayerDetector.IsHang)
-            {
-                _stateMachine.Translate((int)PlayerStateID.Hang);
-            }
-            if (CanFall)
-            {
-                _stateMachine.Translate((int)PlayerStateID.Fall);
-            }
             _stateMachine.Update();
         }
 
@@ -117,10 +112,8 @@ namespace Player
         {
             _stateMachine.FixedUpdate();
             
-            if (CanResetJump)       // 重置跳跃次数
-            {
-                JumpCount = 0;
-            }
+            // 清除跳跃按键状态，防止多次跳跃
+            ResetJumpPressed();
         }
 
         public bool Flip()
@@ -140,5 +133,17 @@ namespace Player
             return false;
         }
 
+        public void ResetJumpCount()
+        {
+            JumpCount = 0;
+        }
+
+        private void ResetJumpPressed()
+        {
+            if (JumpPressed && Time.time - _jumpCacheTime > jumpCacheDuration)
+            {
+                JumpPressed = false;
+            }
+        }
     }
 }
