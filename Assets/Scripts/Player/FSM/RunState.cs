@@ -56,16 +56,16 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.CoyoteJump);
                 }
-                // if (PlayerController.IsVelocityYDown)
-                // {
-                //     StateMachine.Translate((int)PlayerStateID.Fall);
-                // }
             }
             else
             {
                 PlayerController.ResetJumpCount();
 
-                if (PlayerController.JumpPressed)
+                if (Mathf.Abs(PlayerController.MoveDirection.x) > 0 && PlayerController.MoveDirection.y < 0 && PlayerController.JumpPressed)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Slide);
+                }
+                else if (PlayerController.JumpPressed)
                 {
                     StateMachine.Translate((int)PlayerStateID.Jump);
                 }

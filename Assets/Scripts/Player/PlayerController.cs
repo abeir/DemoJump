@@ -42,6 +42,14 @@ namespace Player
         [SerializeField]
         public float dashDuration = 0.3f;       // 冲刺持续时间
 
+        [SerializeField]
+        public float slideSpeed = 450;      // 滑行速度
+        [SerializeField]
+        public float slideCoolingTime = 0.5f;      // 滑行冷却时间
+        [SerializeField]
+        public float slideDuration = 0.3f;       // 滑行持续时间
+
+
 
         [Title("Other")]
         [SerializeField]

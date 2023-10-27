@@ -37,7 +37,6 @@ namespace Player.FSM
             var jumpForce = PlayerController.JumpCount == 2 ? PlayerController.doubleJumpForce : PlayerController.jumpForce;
             PlayerController.Rigidbody.AddForce(new Vector2(PlayerController.MoveDirection.x, jumpForce), ForceMode2D.Impulse);
 
-
             PlayerController.UnarmedAnimator.SetBool(JumpHash, true);
             PlayerController.UnarmedAnimator.SetFloat(JumpCountHash, PlayerController.JumpCount);
 

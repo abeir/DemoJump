@@ -12,6 +12,7 @@ namespace Player.FSM
         Hang,
         Climb,
         CoyoteJump,
-        Land
+        Land,
+        Slide
     }
 }

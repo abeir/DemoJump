@@ -6,7 +6,7 @@ namespace Player.FSM
 {
     public class LandState : AStateBase
     {
-        public readonly int LandHash = Animator.StringToHash("Land");
+        public static readonly int LandHash = Animator.StringToHash("Land");
         // 动画名称
         private const string landClipName = "Land";
 

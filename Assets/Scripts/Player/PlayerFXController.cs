@@ -9,6 +9,7 @@ namespace Player
     public class PlayerFxEvent : IEvent
     {
         private const string dustGroupName = "DustGroup";
+        private const string dustGroupFollowName = "DustGroup_follow";
 
         public string Group { get; }
         public string FX { get; }
@@ -38,11 +39,18 @@ namespace Player
         {
             EventManager.TriggerEvent(new PlayerFxEvent(dustGroupName, "LandDust"));
         }
+
+        public static void TriggerSlideDust()
+        {
+            EventManager.TriggerEvent(new PlayerFxEvent(dustGroupName, "SlideDust"));
+        }
     }
 
 
     public class PlayerFXController : MonoBehaviour, IEventListener<PlayerFxEvent>
     {
+        private const string followDustSuffix = "_follow";      // 已此为后缀的子对象作为跟随动画效果
+
         public struct FxGroup
         {
             public SpriteRenderer spriteRenderer;
@@ -68,23 +76,9 @@ namespace Player
                 playerController = transform.GetComponentInParent<PlayerController>();
             }
 
-            for (var i=0; i<transform.childCount; i++)
-            {
-                var child = transform.GetChild(i);
-                var fxGroup = new FxGroup
-                {
-                    spriteRenderer = child.GetComponent<SpriteRenderer>(),
-                    animator = child.GetComponent<Animator>()
-                };
-                _fxGroups[child.name] = fxGroup;
-
-                BindEvent(fxGroup.animator);
-
-                // 初始时关闭所有的效果
-                child.gameObject.SetActive(false);
-            }
+            InitGroups();
             // 解除子物体绑定关系
-            transform.DetachChildren();
+            // transform.DetachChildren();
         }
 
 
@@ -131,6 +125,39 @@ namespace Player
         public void OnAnimationFinished(string group)
         {
             Stop(group);
+        }
+
+
+        private void InitGroups()
+        {
+            var detachChildren = new List<Transform>();
+
+            for (var i=0; i<transform.childCount; i++)
+            {
+                var child = transform.GetChild(i);
+                var fxGroup = new FxGroup
+                {
+                    spriteRenderer = child.GetComponent<SpriteRenderer>(),
+                    animator = child.GetComponent<Animator>()
+                };
+                _fxGroups[child.name] = fxGroup;
+
+                BindEvent(fxGroup.animator);
+
+                // 不以 follow 为后缀的将会被分离父子关系
+                if (!child.name.EndsWith(followDustSuffix))
+                {
+                    detachChildren.Add(child);
+                }
+
+                // 初始时关闭所有的效果
+                child.gameObject.SetActive(false);
+            }
+
+            foreach (var child in detachChildren)
+            {
+                child.SetParent(null);
+            }
         }
 
 
