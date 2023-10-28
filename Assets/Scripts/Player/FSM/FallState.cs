@@ -29,6 +29,9 @@ namespace Player.FSM
         {
             _velocity = Vector2.zero;
             PlayerController.UnarmedAnimator.SetBool(FallHash, true);
+            
+            // 修改摩擦力
+            PlayerController.SetZeroFriction();
         }
 
         public override void OnExit(StateDefine next)
@@ -50,6 +53,8 @@ namespace Player.FSM
             {
                 PlayerFxEvent.TriggerLandDust();
             }
+            // 还原摩擦力
+            PlayerController.SetDefaultFriction();
         }
 
         public override void OnStay()

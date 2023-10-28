@@ -1,5 +1,4 @@
-﻿using Common.Helper;
-using FSM;
+﻿using FSM;
 using Player.FSM;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -49,6 +48,11 @@ namespace Player
         [SerializeField]
         public float slideDuration = 0.3f;       // 滑行持续时间
 
+        [Title("Physic Material")]
+        [SerializeField]
+        public PhysicsMaterial2D defaultFriction;
+        [SerializeField]
+        public PhysicsMaterial2D zeroFriction;
 
 
         [Title("Other")]
@@ -94,6 +98,9 @@ namespace Player
         private void Start()
         {
             _stateMachine = StateHelper.CreateStateMachine(stateConfig, this);
+            
+            // 默认摩擦力
+            Rigidbody.sharedMaterial = defaultFriction;
         }
 
         private void OnEnable()
@@ -124,34 +131,6 @@ namespace Player
             ResetJumpPressed();
         }
 
-        public bool Flip()
-        {
-            if (!facingPositive && MoveDirection.x >= Maths.TinyNum)
-            {
-                facingPositive = true;
-                SpriteRenderer.flipX = false;
-                return true;
-            }
-            else if (facingPositive && MoveDirection.x <= -Maths.TinyNum)
-            {
-                facingPositive = false;
-                SpriteRenderer.flipX = true;
-                return true;
-            }
-            return false;
-        }
-
-        public void ResetJumpCount()
-        {
-            JumpCount = 0;
-        }
-
-        private void ResetJumpPressed()
-        {
-            if (JumpPressed && Time.time - _jumpCacheTime > jumpCacheDuration)
-            {
-                JumpPressed = false;
-            }
-        }
+        
     }
 }

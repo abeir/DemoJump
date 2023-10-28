@@ -48,12 +48,17 @@ namespace Player.FSM
             {
                 PlayerFxEvent.TriggerDoubleJumpDust();
             }
+            
+            // 修改摩擦力
+            PlayerController.SetZeroFriction();
         }
 
         public override void OnExit(StateDefine next)
         {
             _fallSpeed = 0;
             PlayerController.UnarmedAnimator.SetBool(JumpHash, false);
+            // 还原摩擦力
+            PlayerController.SetDefaultFriction();
         }
 
         public override void OnStay()

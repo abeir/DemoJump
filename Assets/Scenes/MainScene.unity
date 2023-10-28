@@ -386,7 +386,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.006231897, y: 0.2503, z: -10}
+  m_LocalPosition: {x: -0.007154021, y: 0.25037998, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4235,6 +4235,8 @@ MonoBehaviour:
   slideSpeed: 450
   slideCoolingTime: 0.5
   slideDuration: 0.3
+  defaultFriction: {fileID: 6200000, guid: 415177fe825f5524e9311ef5247947e5, type: 2}
+  zeroFriction: {fileID: 6200000, guid: 5a9e56534e1caa94e93fe086fd706923, type: 2}
   debug: 0
 --- !u!1 &1931257799
 GameObject:
