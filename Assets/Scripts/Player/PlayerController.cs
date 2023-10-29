@@ -12,6 +12,8 @@ namespace Player
         [SerializeField]
         private Transform unarmedTransform;
         [SerializeField]
+        private GameObject detectorGameObject;
+        [SerializeField]
         private StateConfig stateConfig;
 
         [Title("Motion")]
@@ -65,8 +67,6 @@ namespace Player
         
         public CapsuleCollider2D Collider { get; private set; }
         
-        public PlayerDetector PlayerDetector { get; private set; }
-        
         public PlayerInputLock InputLock { get; private set; }
 
         public int JumpCount { get; set; }      // 跳跃次数
@@ -87,8 +87,8 @@ namespace Player
             UnarmedAnimator = unarmedTransform.GetComponent<Animator>();
             SpriteRenderer = unarmedTransform.GetComponent<SpriteRenderer>();
 
-            PlayerDetector = GetComponentInChildren<PlayerDetector>();
-            
+            FindDetectorComponents();
+
             _inputActions = new InputActions();
             _inputActions.Gameplay.SetCallbacks(this);
 

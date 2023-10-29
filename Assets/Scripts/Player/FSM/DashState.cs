@@ -47,7 +47,7 @@ namespace Player.FSM
 
             PlayerController.UnarmedAnimator.SetBool(DashHash, true);
 
-            if (PlayerController.PlayerDetector.IsOnGround || PlayerController.PlayerDetector.IsOnSlope)
+            if (PlayerController.IsOnGround || PlayerController.IsOnSlope)
             {
                 PlayerFxEvent.TriggerDashDust();
             }
@@ -69,7 +69,7 @@ namespace Player.FSM
             if (PlayerController.dashDuration < Time.time - _lastTime)
             {
                 // Dash 结束
-                if (PlayerController.PlayerDetector.IsOnAir)
+                if (PlayerController.IsOnAir)
                 {
                     StateMachine.Translate((int)PlayerStateID.Fall);
                 }

@@ -24,7 +24,7 @@ namespace Player.FSM
         
         public override bool CanEnter(StateDefine pre)
         {
-            return PlayerController.PlayerDetector.IsOnGround || PlayerController.JumpCount < 2;
+            return PlayerController.IsOnGround || PlayerController.JumpCount < 2;
         }
 
         public override void OnEnter(StateDefine pre)
@@ -40,7 +40,7 @@ namespace Player.FSM
             PlayerController.UnarmedAnimator.SetBool(JumpHash, true);
             PlayerController.UnarmedAnimator.SetFloat(JumpCountHash, PlayerController.JumpCount);
 
-            if (PlayerController.JumpCount == 1 && (PlayerController.PlayerDetector.IsOnGround || PlayerController.PlayerDetector.IsOnSlope))
+            if (PlayerController.JumpCount == 1 && (PlayerController.IsOnGround || PlayerController.IsOnSlope))
             {
                 PlayerFxEvent.TriggerJumpDust();
             }
@@ -63,7 +63,7 @@ namespace Player.FSM
 
         public override void OnStay()
         {
-            if (PlayerController.PlayerDetector.IsOnAir)
+            if (PlayerController.IsOnAir)
             {
 
                 if (PlayerController.IsVelocityYDown)

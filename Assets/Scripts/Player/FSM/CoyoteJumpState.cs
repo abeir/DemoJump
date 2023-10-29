@@ -23,7 +23,7 @@ namespace Player.FSM
 
         public override bool CanEnter(StateDefine pre)
         {
-            return PlayerController.PlayerDetector.IsOnAir;
+            return PlayerController.IsOnAir;
         }
 
         public override void OnEnter(StateDefine pre)
@@ -49,7 +49,7 @@ namespace Player.FSM
 
         public override void OnStay()
         {
-            if (PlayerController.PlayerDetector.IsOnAir)
+            if (PlayerController.IsOnAir)
             {
                 if (Time.time - _startTime > PlayerController.coyoteJumpDuration)
                 {

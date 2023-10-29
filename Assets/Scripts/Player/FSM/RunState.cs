@@ -27,7 +27,7 @@ namespace Player.FSM
         
         public override bool CanEnter(StateDefine pre)
         {
-            return PlayerController.PlayerDetector.IsOnGround || PlayerController.PlayerDetector.IsOnSlope;
+            return PlayerController.IsOnGround || PlayerController.IsOnSlope;
         }
 
         public override void OnEnter(StateDefine pre)
@@ -50,7 +50,7 @@ namespace Player.FSM
 
         public override void OnStay()
         {
-            if (PlayerController.PlayerDetector.IsOnAir)
+            if (PlayerController.IsOnAir)
             {
                 if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
                 {

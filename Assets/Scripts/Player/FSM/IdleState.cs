@@ -26,9 +26,9 @@ namespace Player.FSM
              */
             if (pre.ID == (int)PlayerStateID.Jump)
             {
-                return PlayerController.PlayerDetector.IsOnGround && Mathf.Abs(PlayerController.Rigidbody.velocity.y) <= Mathf.Epsilon;
+                return PlayerController.IsOnGround && Mathf.Abs(PlayerController.Rigidbody.velocity.y) <= Mathf.Epsilon;
             }
-            return PlayerController.PlayerDetector.IsOnGround;
+            return PlayerController.IsOnGround;
         }
 
         public override void OnEnter(StateDefine pre)
@@ -43,7 +43,7 @@ namespace Player.FSM
 
         public override void OnStay()
         {
-            if (PlayerController.PlayerDetector.IsOnAir)
+            if (PlayerController.IsOnAir)
             {
                 if (PlayerController.IsVelocityYDown)
                 {

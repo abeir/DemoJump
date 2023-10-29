@@ -1,36 +1,50 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace Common.Detector
 {
-    public class GroundDetector : IDetector
+    public class GroundDetector : MonoBehaviour, IDetector
     {
-        private ADetectorMonoBehaviour _detector;
+        [SerializeField]
+        public bool debugger = true;
+        [SerializeField]
+        public LayerMask groundLayer;
+        [SerializeField]
+        public Rect detectBox;
+        [SerializeField]
+        public Color detectBoxColor;
         
         
-        private readonly Collider2D[] _groundColliders = new Collider2D[2];
+        public bool IsOnGround { get; private set; }
         
-
-        public ADetectorMonoBehaviour SetDetectorMonoBehaviour
-        {
-            set => _detector = value;
-        }
         
-
-        public void Init()
-        {
-        }
+        private readonly Collider2D[] _groundColliders = new Collider2D[1];
+        
 
         public bool Detect()
         {
-            var count = Physics2D.OverlapBoxNonAlloc((Vector2)_detector.transform.position + _detector.detectBox.center, 
-                    _detector.detectBox.size, 0, _groundColliders, _detector.groundLayer);
+            var count = Physics2D.OverlapBoxNonAlloc((Vector2)transform.position + detectBox.center, 
+                    detectBox.size, 0, _groundColliders, groundLayer);
             return count > 0;
         }
 
         public void DrawGizmos()
         {
-            Gizmos.color = _detector.detectBoxColor;
-            Gizmos.DrawWireCube(_detector.transform.position + (Vector3)_detector.detectBox.center, _detector.detectBox.size);
+            Gizmos.color = detectBoxColor;
+            Gizmos.DrawWireCube(transform.position + (Vector3)detectBox.center, detectBox.size);
+        }
+
+        private void FixedUpdate()
+        {
+            IsOnGround = Detect();
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (debugger)
+            {
+                DrawGizmos();    
+            }
         }
     }
 }

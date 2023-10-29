@@ -251,7 +251,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 210216446}
-  - component: {fileID: 210216447}
+  - component: {fileID: 210216448}
   m_Layer: 0
   m_Name: Detector
   m_TagString: Untagged
@@ -274,7 +274,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1847875147}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &210216447
+--- !u!114 &210216448
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -283,10 +283,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 210216445}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13ce7c3fbc4bf1d4791999a36813687c, type: 3}
+  m_Script: {fileID: 11500000, guid: d14588a764fb46b6988b0fd9d914be21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerTransform: {fileID: 1847875147}
   groundDebugger: 1
   groundLayer:
     serializedVersion: 2
@@ -297,8 +296,7 @@ MonoBehaviour:
     y: -0.15
     width: 0.23
     height: 0.2
-  detectBoxColor: {r: 0, g: 0.9539039, b: 1, a: 1}
-  hangPauseDuration: 0.2
+  detectBoxColor: {r: 0, g: 0.95294124, b: 1, a: 1}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -4219,6 +4217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unarmedTransform: {fileID: 1690911840}
+  detectorGameObject: {fileID: 210216445}
   stateConfig: {fileID: 11400000, guid: c5e2d476586dab047829a7a10958b90c, type: 2}
   facingPositive: 1
   speed: 250

@@ -42,7 +42,7 @@ namespace Player.FSM
             }
             PlayerController.UnarmedAnimator.SetBool(SlideHash, true);
 
-            if (PlayerController.PlayerDetector.IsOnGround || PlayerController.PlayerDetector.IsOnSlope)
+            if (PlayerController.IsOnGround || PlayerController.IsOnSlope)
             {
                 PlayerFxEvent.TriggerSlideDust();
             }
@@ -59,7 +59,7 @@ namespace Player.FSM
 
         public override void OnStay()
         {
-            if (PlayerController.PlayerDetector.IsOnAir)
+            if (PlayerController.IsOnAir)
             {
                 StateMachine.Translate((int)PlayerStateID.Fall);
                 return;
