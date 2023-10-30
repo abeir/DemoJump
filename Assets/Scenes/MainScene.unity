@@ -252,6 +252,8 @@ GameObject:
   m_Component:
   - component: {fileID: 210216446}
   - component: {fileID: 210216448}
+  - component: {fileID: 210216449}
+  - component: {fileID: 210216450}
   m_Layer: 0
   m_Name: Detector
   m_TagString: Untagged
@@ -286,17 +288,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14588a764fb46b6988b0fd9d914be21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundDebugger: 1
-  groundLayer:
+  debugger: 1
+  layer:
     serializedVersion: 2
     m_Bits: 1024
-  detectBox:
+  box:
     serializedVersion: 2
     x: -0.13
     y: -0.15
     width: 0.23
     height: 0.2
-  detectBoxColor: {r: 0, g: 0.95294124, b: 1, a: 1}
+  color: {r: 0, g: 0.95294124, b: 1, a: 1}
+  isOnGround: 0
+--- !u!114 &210216449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210216445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a05a9f935642a787705061fa21d736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugger: 1
+  layer:
+    serializedVersion: 2
+    m_Bits: 1024
+  rightCircleCenter: {x: 0.14, y: 0.45}
+  rightCircleRadius: 0.1
+  leftCircleCenter: {x: -0.14, y: 0.45}
+  leftCircleRadius: 0.1
+  color: {r: 1, g: 0, b: 0.77627563, a: 1}
+  isTouchWall: 0
+--- !u!114 &210216450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210216445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba1dc5bd0b4f47a3af4e61f10a190b05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugger: 1
+  layer:
+    serializedVersion: 2
+    m_Bits: 1024
+  rightPoint: {x: 0.05, y: 1.16}
+  leftPoint: {x: -0.15, y: 1.16}
+  distance: 0.18
+  spacing: 0.18
+  color: {r: 0, g: 1, b: 0.04590869, a: 1}
+  isTouchEdge: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,7 +431,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.007154021, y: 0.25037998, z: -10}
+  m_LocalPosition: {x: -0.006231897, y: 0.2503, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -1,5 +1,6 @@
 ﻿using Common.Helper;
 using FSM;
+using Player.FX;
 using UnityEngine;
 
 namespace Player.FSM

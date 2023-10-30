@@ -1,5 +1,4 @@
-﻿using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Common.Detector
 {
@@ -8,14 +7,16 @@ namespace Common.Detector
         [SerializeField]
         public bool debugger = true;
         [SerializeField]
-        public LayerMask groundLayer;
+        public LayerMask layer;
         [SerializeField]
-        public Rect detectBox;
+        public Rect box;
         [SerializeField]
-        public Color detectBoxColor;
-        
-        
-        public bool IsOnGround { get; private set; }
+        public Color color;
+
+        [SerializeField]
+        private bool isOnGround;
+
+        public bool IsOnGround => isOnGround;
         
         
         private readonly Collider2D[] _groundColliders = new Collider2D[1];
@@ -23,22 +24,25 @@ namespace Common.Detector
 
         public bool Detect()
         {
-            var count = Physics2D.OverlapBoxNonAlloc((Vector2)transform.position + detectBox.center, 
-                    detectBox.size, 0, _groundColliders, groundLayer);
+            var count = Physics2D.OverlapBoxNonAlloc((Vector2)transform.position + box.center,
+                box.size, 0, _groundColliders, layer);
             return count > 0;
         }
 
         public void DrawGizmos()
         {
-            Gizmos.color = detectBoxColor;
-            Gizmos.DrawWireCube(transform.position + (Vector3)detectBox.center, detectBox.size);
+            Gizmos.color = color;
+            Gizmos.DrawWireCube(transform.position + (Vector3)box.center, box.size);
         }
 
         private void FixedUpdate()
         {
-            IsOnGround = Detect();
+            isOnGround = Detect();
         }
 
+
+
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             if (debugger)
@@ -47,4 +51,5 @@ namespace Common.Detector
             }
         }
     }
+#endif
 }
