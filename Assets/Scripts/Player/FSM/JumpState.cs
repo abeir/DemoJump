@@ -15,7 +15,7 @@ namespace Player.FSM
         public override StateDefine State { get; } = new StateDefine
         {
             ID = (int)PlayerStateID.Jump,
-            Name = "Jump"
+            Name = PlayerStateID.Jump.ToString()
         };
 
 
@@ -66,8 +66,11 @@ namespace Player.FSM
         {
             if (PlayerController.IsOnAir)
             {
-
-                if (PlayerController.IsVelocityYDown)
+                if (PlayerController.IsTouchLedge)
+                {
+                    StateMachine.Translate((int)PlayerStateID.LedgeHang);
+                }
+                else if (PlayerController.IsVelocityYDown)
                 {
                     StateMachine.Translate((int)PlayerStateID.Fall);
                 }

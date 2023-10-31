@@ -9,10 +9,10 @@ namespace Player.FSM
         Jump,
         Fall,
         Dash,
-        Hang,
-        Climb,
         CoyoteJump,
         Land,
-        Slide
+        Slide,
+        LedgeHang,
+        LedgeClimb
     }
 }

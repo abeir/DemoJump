@@ -10,7 +10,7 @@ namespace Player.FSM
         public override StateDefine State { get; } = new StateDefine()
         {
             ID = (int)PlayerStateID.Idle,
-            Name = "Idle"
+            Name = PlayerStateID.Idle.ToString()
         };
         
         public IdleState(PlayerController p) : base(p)

@@ -15,7 +15,7 @@ namespace Player.FSM
         public override StateDefine State => new StateDefine()
         {
             ID = (int)PlayerStateID.Slide,
-            Name = "Slide"
+            Name = PlayerStateID.Slide.ToString()
         };
 
         public SlideState(PlayerController ctrl) : base(ctrl)

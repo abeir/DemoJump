@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Common.Detector
 {
-    public class HangDetector : MonoBehaviour, IDetector
+    public class LedgeDetector : MonoBehaviour, IDetector
     {
 
         [SerializeField]
@@ -24,16 +24,16 @@ namespace Common.Detector
         public Color color;
 
         [SerializeField, ReadOnly]
-        private bool isTouchEdge;
+        private bool isTouchLedge;
 
         /// <summary>
         /// 是否触碰到边缘
         /// </summary>
-        public bool IsTouchEdge => isTouchEdge;
+        public bool IsTouchLedge => isTouchLedge;
         /// <summary>
         /// 触碰边缘的方向，0表示为碰到边缘，1为右侧碰到，-1为左侧碰到
         /// </summary>
-        public int TouchEdgeDirection { get; private set; }
+        public int TouchLedgeDirection { get; private set; }
         /// <summary>
         /// 触碰边缘的垂直方向的点
         /// </summary>
@@ -52,16 +52,16 @@ namespace Common.Detector
             var isTouched = DetectWithDirection(pos + rightPoint, true);
             if (isTouched)
             {
-                TouchEdgeDirection = 1;
+                TouchLedgeDirection = 1;
                 return true;
             }
             isTouched = DetectWithDirection(pos + leftPoint, false);
             if (isTouched)
             {
-                TouchEdgeDirection = -1;
+                TouchLedgeDirection = -1;
                 return true;
             }
-            TouchEdgeDirection = 0;
+            TouchLedgeDirection = 0;
             return false;
         }
 
@@ -117,7 +117,7 @@ namespace Common.Detector
 
         private void Update()
         {
-            isTouchEdge = Detect();
+            isTouchLedge = Detect();
         }
 
 #if UNITY_EDITOR

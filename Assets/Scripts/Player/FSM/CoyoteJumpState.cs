@@ -14,7 +14,7 @@ namespace Player.FSM
         public override StateDefine State => new StateDefine()
         {
             ID = (int)PlayerStateID.CoyoteJump,
-            Name = "CoyoteJump"
+            Name = PlayerStateID.CoyoteJump.ToString()
         };
 
         public CoyoteJumpState(PlayerController ctrl) : base(ctrl)

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Player.FSM;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
@@ -93,21 +94,30 @@ namespace FSM
             window.SetStateConfig(stateConfig);
         }
         
-        
+
         [Button(ButtonSizes.Large), GUIColor(0, 1, 0), PropertyOrder(1)]
         private void Save()
         {
-            _stateConfig.translates = ConvertFromText(translateText);
+            var translates = ConvertFromText(translateText);
+            if (translates == null)
+            {
+                return;
+            }
+            _stateConfig.translates = translates;
         }
         
         
         [Title("State Translates")]
         [LabelText("Translates"), TextArea(4, 50), PropertyOrder(2)]
+        [InfoBox("$_errorMessage", InfoMessageType.Error, "@_errorMessage!=null")]
         public string translateText;
         
         
 
         private StateConfig _stateConfig;
+
+        private string _errorMessage;
+
 
         public void SetStateConfig(StateConfig stateConfig)
         {
@@ -125,13 +135,25 @@ namespace FSM
             return string.Join("\n", lines);
         }
 
-        private static List<StateConfig.Translate> ConvertFromText(string text)
+        [CanBeNull]
+        private List<StateConfig.Translate> ConvertFromText(string text)
         {
+            ResetErrorMessage();
+
             var translates = new List<StateConfig.Translate>();
             var lines = text.Split("\n", StringSplitOptions.RemoveEmptyEntries);
             foreach (var line in lines)
             {
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    continue;
+                }
                 var lineInfo = line.Split(">");
+                if (lineInfo == null || lineInfo.Length != 2)
+                {
+                    SetErrorMessage($"行格式错误：{line} \n示例：Jump > Fall");
+                    return null;
+                }
                 translates.Add(new StateConfig.Translate()
                 {
                     source = Enum.Parse<PlayerStateID>(lineInfo[0].Trim()),
@@ -139,6 +161,17 @@ namespace FSM
                 });
             }
             return translates;
+        }
+
+
+        private void SetErrorMessage(string msg)
+        {
+            _errorMessage = msg;
+        }
+
+        private void ResetErrorMessage()
+        {
+            _errorMessage = null;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Player.FSM
         public override StateDefine State => new StateDefine()
         {
             ID = (int)PlayerStateID.Dash,
-            Name = "Dash"
+            Name = PlayerStateID.Dash.ToString()
         };
         
         public DashState(PlayerController ctrl) : base(ctrl)

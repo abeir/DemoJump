@@ -14,7 +14,7 @@ namespace Player.FSM
         public override StateDefine State => new StateDefine()
         {
             ID = (int)PlayerStateID.Land,
-            Name = "Land"
+            Name = PlayerStateID.Land.ToString()
         };
 
         public LandState(PlayerController ctrl) : base(ctrl)

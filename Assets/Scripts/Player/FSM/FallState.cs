@@ -14,7 +14,7 @@ namespace Player.FSM
         public override StateDefine State { get; } = new StateDefine
         {
             ID = (int)PlayerStateID.Fall,
-            Name = "Fall"
+            Name = PlayerStateID.Fall.ToString()
         };
         
         public FallState(PlayerController ctrl) : base(ctrl)
@@ -23,7 +23,7 @@ namespace Player.FSM
         
         public override bool CanEnter(StateDefine pre)
         {
-            return !PlayerController.IsOnGround && !PlayerController.IsHang;
+            return PlayerController.IsOnAir && !PlayerController.IsTouchLedge;
         }
 
         public override void OnEnter(StateDefine pre)
@@ -62,7 +62,11 @@ namespace Player.FSM
         {
             if (PlayerController.IsOnAir)
             {
-                if (PlayerController.JumpPressed)
+                if (PlayerController.IsTouchLedge)
+                {
+                    StateMachine.Translate((int)PlayerStateID.LedgeHang);
+                }
+                else if (PlayerController.JumpPressed)
                 {
                     StateMachine.Translate((int)PlayerStateID.Jump);
                 }

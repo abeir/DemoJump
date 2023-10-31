@@ -17,7 +17,7 @@ namespace Player.FSM
         public override StateDefine State { get; } = new StateDefine
         {
             ID = (int)PlayerStateID.Run,
-            Name = "Run"
+            Name = PlayerStateID.Run.ToString()
         };
         
         

@@ -50,6 +50,10 @@ namespace Player
         [SerializeField]
         public float slideDuration = 0.3f;       // 滑行持续时间
 
+        [SerializeField]
+        public float ledgeClimbDuration = 0.6f;     // 边缘爬升的持续时间
+
+
         [Title("Physic Material")]
         [SerializeField]
         public PhysicsMaterial2D defaultFriction;
@@ -65,7 +69,7 @@ namespace Player
         public SpriteRenderer SpriteRenderer { get; private set; }
         public Rigidbody2D Rigidbody { get; private set; }
         
-        public CapsuleCollider2D Collider { get; private set; }
+        public CapsuleCollider2D UnarmedCollider { get; private set; }
         
         public PlayerInputLock InputLock { get; private set; }
 
@@ -83,7 +87,7 @@ namespace Player
         {
             Rigidbody = GetComponent<Rigidbody2D>();
 
-            Collider = unarmedTransform.GetComponent<CapsuleCollider2D>();
+            UnarmedCollider = unarmedTransform.GetComponent<CapsuleCollider2D>();
             UnarmedAnimator = unarmedTransform.GetComponent<Animator>();
             SpriteRenderer = unarmedTransform.GetComponent<SpriteRenderer>();
 
