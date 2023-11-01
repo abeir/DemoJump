@@ -18,3 +18,4 @@
 *.asset binary
 *.asmdef binary
 ProjectVersion.txt binary
+InputActions.cs binary

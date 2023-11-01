@@ -7,12 +7,17 @@ namespace Player.FSM
         Idle = StateID.User + 1,
         Run,
         Jump,
+        DoubleJump,
         Fall,
         Dash,
         CoyoteJump,
         Land,
         Slide,
         LedgeHang,
-        LedgeClimb
+        LedgeClimb,
+        WallIdle,
+        WallClimb,
+        WallJump,
+        WallSlide
     }
 }

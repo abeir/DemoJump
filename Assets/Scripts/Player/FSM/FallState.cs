@@ -28,6 +28,8 @@ namespace Player.FSM
 
         public override void OnEnter(StateDefine pre)
         {
+            Debug.Log($">>> FallState.OnEnter  pre:{pre.Name}");
+
             _velocity = Vector2.zero;
             PlayerController.UnarmedAnimator.SetBool(FallHash, true);
             
@@ -66,9 +68,20 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.LedgeHang);
                 }
-                else if (PlayerController.JumpPressed)
+                else if (PlayerController.JumpPressedImpulse)
                 {
-                    StateMachine.Translate((int)PlayerStateID.Jump);
+                    if (PlayerController.JumpCount == 0)
+                    {
+                        StateMachine.Translate((int)PlayerStateID.Jump);
+                    }
+                    else if(PlayerController.JumpCount == 1)
+                    {
+                            StateMachine.Translate((int)PlayerStateID.DoubleJump);
+                    }
+                }
+                else if (PlayerController.DashPressedImpulse)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Dash);
                 }
             }
             else

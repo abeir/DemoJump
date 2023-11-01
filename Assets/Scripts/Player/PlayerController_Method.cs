@@ -7,21 +7,32 @@ namespace Player
     {
         
         
-        public bool Flip()
+        public void Flip()
         {
             if (!facingPositive && MoveDirection.x >= Maths.TinyNum)
             {
                 facingPositive = true;
                 SpriteRenderer.flipX = false;
-                return true;
             }
             else if (facingPositive && MoveDirection.x <= -Maths.TinyNum)
             {
                 facingPositive = false;
                 SpriteRenderer.flipX = true;
-                return true;
             }
-            return false;
+        }
+
+        public void Flip(int direction)
+        {
+            if (direction == 1)
+            {
+                facingPositive = true;
+                SpriteRenderer.flipX = false;
+            }
+            else if (direction == -1)
+            {
+                facingPositive = false;
+                SpriteRenderer.flipX = true;
+            }
         }
 
         public void ResetJumpCount()
@@ -29,11 +40,19 @@ namespace Player
             JumpCount = 0;
         }
 
-        public void ResetJumpPressed()
+        public void ResetJumpPressedImpulse()
         {
-            if (JumpPressed && Time.time - _jumpCacheTime > jumpCacheDuration)
+            if (JumpPressedImpulse && Time.time - _jumpCacheTime > jumpCacheDuration)
             {
-                JumpPressed = false;
+                JumpPressedImpulse = false;
+            }
+        }
+
+        public void ResetDashPressed()
+        {
+            if (DashPressedImpulse && Time.time - _dashCacheTime > dashCacheDuration)
+            {
+                DashPressedImpulse = false;
             }
         }
 

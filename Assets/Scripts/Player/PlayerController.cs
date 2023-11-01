@@ -15,6 +15,8 @@ namespace Player
         private GameObject detectorGameObject;
         [SerializeField]
         private StateConfig stateConfig;
+        [SerializeField]
+        private bool simpleStateMachine;
 
         [Title("Motion")]
         [SerializeField]
@@ -42,6 +44,8 @@ namespace Player
         public float dashCoolingTime = 0.5f;      // 冲刺冷却时间
         [SerializeField]
         public float dashDuration = 0.3f;       // 冲刺持续时间
+        [SerializeField]
+        public float dashCacheDuration = 0.1f;      // 冲刺缓存的时长
 
         [SerializeField]
         public float slideSpeed = 450;      // 滑行速度
@@ -63,7 +67,7 @@ namespace Player
 
         [Title("Other")]
         [SerializeField]
-        public bool debug = false;      // 开关调试模式
+        public bool debug;      // 开关调试模式
         
         public Animator UnarmedAnimator { get; private set; }
         public SpriteRenderer SpriteRenderer { get; private set; }
@@ -79,7 +83,7 @@ namespace Player
         #region 内部变量
 
         private InputActions _inputActions;
-        private StateMachine _stateMachine;
+        private IStateMachine _stateMachine;
 
         #endregion
         
@@ -101,8 +105,10 @@ namespace Player
 
         private void Start()
         {
-            _stateMachine = StateHelper.CreateStateMachine(stateConfig, this);
-            
+            _stateMachine = simpleStateMachine ? StateHelper.CreateSimpleStateMachine(stateConfig, this) : StateHelper.CreateDefaultStateMachine(stateConfig, this);
+            _stateMachine.SetDebug(debug);
+
+
             // 默认摩擦力
             Rigidbody.sharedMaterial = defaultFriction;
         }
@@ -132,7 +138,9 @@ namespace Player
             _stateMachine.FixedUpdate();
             
             // 清除跳跃按键状态，防止多次跳跃
-            ResetJumpPressed();
+            ResetJumpPressedImpulse();
+            // 清楚冲刺按键状态，防止连续冲刺
+            ResetDashPressed();
         }
 
         

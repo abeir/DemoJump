@@ -31,8 +31,6 @@ namespace Player.FSM
 
         public override void OnEnter(StateDefine pre)
         {
-            Debug.Log($"=== OnEnter: DashState,  {pre.Name} ");
-
             _lastTime = Time.time;
             _velocity = Vector2.zero;
 
@@ -46,6 +44,8 @@ namespace Player.FSM
                 _direction = PlayerController.facingPositive ? 1 : -1;
             }
 
+            PlayerController.Flip(_direction);
+
             PlayerController.UnarmedAnimator.SetBool(DashHash, true);
 
             if (PlayerController.IsOnGround || PlayerController.IsOnSlope)
@@ -56,8 +56,6 @@ namespace Player.FSM
 
         public override void OnExit(StateDefine next)
         {
-            Debug.Log($"=== OnExit: DashState  {next.Name}");
-
             PlayerController.UnarmedAnimator.SetBool(DashHash, false);
             
             // 修复退出冲刺后仍然会横向移动问题

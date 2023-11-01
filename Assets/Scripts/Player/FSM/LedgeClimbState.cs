@@ -63,11 +63,7 @@ namespace Player.FSM
             }
             else
             {
-                if (PlayerController.JumpPressed)
-                {
-                    StateMachine.Translate((int)PlayerStateID.Jump);
-                }
-                else if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
+                if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
                 {
                     StateMachine.Translate((int)PlayerStateID.Run);
                 }

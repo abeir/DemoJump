@@ -6,10 +6,36 @@ namespace Player.FSM
     public static class StateHelper
     {
 
-
-        public static StateMachine CreateStateMachine(StateConfig config, PlayerController ctrl, bool withInit = true)
+        public static IStateMachine CreateSimpleStateMachine(StateConfig config, PlayerController ctrl, bool withInit = true)
         {
-            var stateMachine = new StateMachine();
+            var stateMachine = new SimpleStateMachine();
+            // 创建状态的实例
+            var args = new object[] { ctrl };
+            foreach (var stateClass in config.nodes)
+            {
+                var type = Type.GetType(stateClass);
+                if (type == null)
+                {
+                    continue;
+                }
+                var instance = Activator.CreateInstance(type, args);
+                if (instance is IStateBase state)
+                {
+                    stateMachine.AddState(state);
+                }
+            }
+            stateMachine.SetDefaultState((int)config.defaultState);
+            if (withInit)
+            {
+                stateMachine.Init();
+            }
+            return stateMachine;
+        }
+
+
+        public static IStateMachine CreateDefaultStateMachine(StateConfig config, PlayerController ctrl, bool withInit = true)
+        {
+            var stateMachine = new DefaultStateMachine();
 
             // 创建状态的实例
             var args = new object[] { ctrl };

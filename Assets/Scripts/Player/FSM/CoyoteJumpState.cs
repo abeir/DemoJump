@@ -60,7 +60,7 @@ namespace Player.FSM
             {
                 PlayerController.ResetJumpCount();
 
-                if (PlayerController.JumpPressed)
+                if (PlayerController.JumpPressedImpulse)
                 {
                     StateMachine.Translate((int)PlayerStateID.Jump);
                 }

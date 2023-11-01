@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace Player.FSM
 {
-    public class JumpState : AStateBase
+    public class DoubleJumpState : AStateBase
     {
-        public static readonly int JumpHash = Animator.StringToHash("Jump");
+        public static readonly int DoubleJumpHash = Animator.StringToHash("DoubleJump");
 
         private Vector2 _velocity = Vector2.zero;
-        
+
         public override StateDefine State { get; } = new StateDefine
         {
             ID = (int)PlayerStateID.Jump,
@@ -18,10 +18,10 @@ namespace Player.FSM
         };
 
 
-        public JumpState(PlayerController ctrl) : base(ctrl)
+        public DoubleJumpState(PlayerController ctrl) : base(ctrl)
         {
         }
-        
+
         public override bool CanEnter(StateDefine pre)
         {
             return PlayerController.IsOnGround || PlayerController.JumpCount < 2;
@@ -31,17 +31,13 @@ namespace Player.FSM
         {
             Debug.Log($">>> OnEnter JumpState  pre:{pre.Name}");
 
-            PlayerController.JumpCount = 1;
+            PlayerController.JumpCount = 2;
 
-            PlayerController.Rigidbody.AddForce(new Vector2(PlayerController.MoveDirection.x, PlayerController.jumpForce), ForceMode2D.Impulse);
+            PlayerController.Rigidbody.AddForce(new Vector2(PlayerController.MoveDirection.x, PlayerController.doubleJumpForce), ForceMode2D.Impulse);
 
-            PlayerController.UnarmedAnimator.SetBool(JumpHash, true);
+            PlayerController.UnarmedAnimator.SetBool(DoubleJumpHash, true);
 
-            if (PlayerController.IsOnGround || PlayerController.IsOnSlope)
-            {
-                PlayerFxEvent.TriggerJumpDust();
-            }
-
+            PlayerFxEvent.TriggerDoubleJumpDust();
             // 修改摩擦力
             PlayerController.SetZeroFriction();
         }
@@ -49,7 +45,7 @@ namespace Player.FSM
         public override void OnExit(StateDefine next)
         {
             _fallSpeed = 0;
-            PlayerController.UnarmedAnimator.SetBool(JumpHash, false);
+            PlayerController.UnarmedAnimator.SetBool(DoubleJumpHash, false);
             // 还原摩擦力
             PlayerController.SetDefaultFriction();
         }
@@ -65,10 +61,6 @@ namespace Player.FSM
                 else if (PlayerController.IsVelocityYDown || !PlayerController.JumpPressed)
                 {   // 当速度向下，或者松开跳跃键时进入 Fall 状态
                     StateMachine.Translate((int)PlayerStateID.Fall);
-                }
-                else if (PlayerController.JumpPressedImpulse)
-                {
-                    StateMachine.Translate((int)PlayerStateID.Jump);
                 }
                 else if (PlayerController.DashPressedImpulse)
                 {
@@ -95,21 +87,21 @@ namespace Player.FSM
 
             PlayerController.Flip();
         }
-        
+
         private float _fallSpeed;
 
         public override void OnFixedStay()
         {
             _velocity.x = Time.fixedDeltaTime * PlayerController.speed * PlayerController.MoveDirection.x;
             _velocity.y = PlayerController.Rigidbody.velocity.y;
-            
+
             // 跳跃时减速
             if (PlayerController.Rigidbody.velocity.y > Maths.TinyNum)
             {
                 _fallSpeed += Time.fixedDeltaTime * PlayerController.jumpDeceleration;
                 _velocity.y -= _fallSpeed;
             }
-            
+
             PlayerController.Rigidbody.velocity = _velocity;
         }
     }

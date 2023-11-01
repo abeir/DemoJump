@@ -7,7 +7,7 @@ namespace FSM
         
         public StateDefine State { get; }
         
-        public StateMachine StateMachine { set; }
+        public IStateMachine StateMachine { set; }
         
         public bool CanEnter(StateDefine pre);
 
@@ -24,7 +24,7 @@ namespace FSM
     {
         public abstract StateDefine State { get; }
         
-        public StateMachine StateMachine { protected get; set; }
+        public IStateMachine StateMachine { protected get; set; }
 
         protected PlayerController PlayerController { get; private set; }
         

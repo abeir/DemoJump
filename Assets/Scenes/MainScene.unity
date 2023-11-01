@@ -431,7 +431,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.010130463, y: 0.25063, z: -10}
+  m_LocalPosition: {x: -0.0058804234, y: 0.25026998, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4266,6 +4266,7 @@ MonoBehaviour:
   unarmedTransform: {fileID: 1690911840}
   detectorGameObject: {fileID: 210216445}
   stateConfig: {fileID: 11400000, guid: c5e2d476586dab047829a7a10958b90c, type: 2}
+  simpleStateMachine: 1
   facingPositive: 1
   speed: 250
   jumpForce: 20
@@ -4278,6 +4279,7 @@ MonoBehaviour:
   dashSpeed: 550
   dashCoolingTime: 0.5
   dashDuration: 0.3
+  dashCacheDuration: 0.1
   slideSpeed: 450
   slideCoolingTime: 0.5
   slideDuration: 0.3

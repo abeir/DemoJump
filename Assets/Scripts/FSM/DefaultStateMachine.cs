@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using FSM.State;
-using JetBrains.Annotations;
 using UnityEngine;
 using AnyState = FSM.State.AnyState;
 
 namespace FSM
 {
-    public sealed class StateMachine
+    public sealed class DefaultStateMachine : IStateMachine
     {
         private readonly Dictionary<int, IStateBase> _states = new();
         private readonly Dictionary<int, HashSet<int>> _translates = new();
@@ -21,27 +20,14 @@ namespace FSM
         private bool _init;
         private bool _debug;
 
-        /// <summary>
-        /// 获取当前状态定义
-        /// </summary>
         public StateDefine Current => _current.State;
-        /// <summary>
-        /// 获取上一个状态定义<br/>
-        /// 需要注意上一个状态可能为空
-        /// </summary>
-        [CanBeNull]
         public StateDefine Previous => _previous?.State;
         
-        public StateMachine(bool debug = false)
+        public void SetDebug(bool debug)
         {
             _debug = debug;
         }
 
-        /// <summary>
-        /// 设置默认状态，状态机初始化时会进入默认状态，设置的默认状态需要先通过 AddState 添加后才有效
-        /// </summary>
-        /// <param name="id">默认状态ID</param>
-        /// <exception cref="ArgumentException"></exception>
         public void SetDefaultState(int id)
         {
             if (!_states.ContainsKey(id))
@@ -51,22 +37,12 @@ namespace FSM
             _defaultStateID = id;
         }
 
-
-        /// <summary>
-        /// 添加状态实现
-        /// </summary>
-        /// <param name="state">状态实现类</param>
         public void AddState(IStateBase state)
         {
             state.StateMachine = this;
             _states[state.State.ID] = state;
         }
 
-        /// <summary>
-        /// 添加状态转换规则，由 originID 状态进入 targetID 状态
-        /// </summary>
-        /// <param name="originID">原状态ID</param>
-        /// <param name="targetID">目标状态ID</param>
         public void AddTranslate(int originID, int targetID)
         {
             if (_translates.TryGetValue(originID, out var targetIDs))
@@ -80,20 +56,12 @@ namespace FSM
             }
         }
 
-        /// <summary>
-        /// 添加由 Any 状态可进入的目标状态
-        /// </summary>
-        /// <param name="targetID">目标状态ID</param>
         public void AddAnyTranslate(int targetID)
         {
             AddTranslate(AnyStateDefine.Instance.ID, targetID);
         }
 
 
-        /// <summary>
-        /// 切换状态，优先根据当前状态切换进入 nextID 状态，若失败，则尝试从 Any 状态进入 nextID 状态
-        /// </summary>
-        /// <param name="nextID">待切换的状态ID</param>
         public void Translate(int nextID)
         {
 #if UNITY_EDITOR
@@ -119,6 +87,10 @@ namespace FSM
         /// </summary>
         public void Init()
         {
+            if (_init)
+            {
+                return;
+            }
             _init = true;
 
             var entranceState = new EntranceState();
@@ -134,9 +106,6 @@ namespace FSM
             ChangeState(selected.State.ID);
         }
         
-        /// <summary>
-        /// 每帧调用当前状态的 OnStay
-        /// </summary>
         public void Update()
         {
             _current.OnStay();

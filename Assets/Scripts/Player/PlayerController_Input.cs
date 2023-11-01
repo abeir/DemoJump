@@ -1,6 +1,4 @@
-﻿using Player.FSM;
-using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Player
@@ -8,14 +6,25 @@ namespace Player
     public partial class PlayerController : InputActions.IGameplayActions
     {
 
-        [ShowInInspector, ReadOnly]
         public Vector2 MoveDirection { get; private set; }
-        [ShowInInspector, ReadOnly]
-        public bool JumpPressed { get; set; }
+        /// <summary>
+        /// 跳跃按键按下时为true，松开时为false
+        /// </summary>
+        public bool JumpPressed { get; private set; }
+
+        /// <summary>
+        /// 跳跃按键的瞬态，当按下跳跃键后为true，经过一段短暂的时间后为false
+        /// </summary>
+        public bool JumpPressedImpulse { get; private set; }
+
+        public bool DashPressedImpulse { get; private set; }
+
+        public bool ClimbPressed { get; private set; }
 
 
         private bool _inputGameplayEnable;
         private float _jumpCacheTime;   // 由于 OnJump 会使 JumpPressed 长时间为true，需要定时重置
+        private float _dashCacheTime;   // 由于 OnDash 会是 DashPressed 长时间为true，需要定时重置
 
 
         public void EnableInputGameplay(bool enable)
@@ -62,11 +71,13 @@ namespace Player
             if (context.performed)
             {
                 JumpPressed = true;
+                JumpPressedImpulse = true;
                 _jumpCacheTime = Time.time;
             }
             else if (context.canceled)
             {
                 JumpPressed = false;
+                JumpPressedImpulse = false;
             }
         }
 
@@ -79,13 +90,29 @@ namespace Player
             }
             if (context.performed)
             {
-                _stateMachine.Translate((int)PlayerStateID.Dash);
+                DashPressedImpulse = true;
+                _dashCacheTime = Time.time;
+            }
+            else if (context.canceled)
+            {
+                DashPressedImpulse = false;
             }
         }
         
         public void OnClimb(InputAction.CallbackContext context)
         {
-
+            if (InputLock.IsLocked(InputType.Climb))
+            {
+                return;
+            }
+            if (context.performed)
+            {
+                ClimbPressed = true;
+            }
+            else if (context.canceled)
+            {
+                ClimbPressed = false;
+            }
         }
     }
 }

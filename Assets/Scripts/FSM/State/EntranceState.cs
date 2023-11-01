@@ -3,7 +3,7 @@
     public class EntranceState : IStateBase
     {
         public StateDefine State => EntranceStateDefine.Instance;
-        public StateMachine StateMachine { get; set; }
+        public IStateMachine StateMachine { get; set; }
 
         public bool CanEnter(StateDefine pre)
         {

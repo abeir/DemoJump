@@ -46,13 +46,21 @@ namespace Player.FSM
 
         public override void OnStay()
         {
+            // 移动方向与面朝向同向
             if (IsMoveSameWithFacing)
             {
                 StateMachine.Translate((int)PlayerStateID.LedgeClimb);
             }
             else
             {
-                // TODO 切换到墙壁下滑状态
+                if (PlayerController.DashPressedImpulse)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Dash);
+                }
+                else if (PlayerController.JumpPressedImpulse)
+                {
+                    StateMachine.Translate((int)PlayerStateID.WallJump);
+                }
             }
         }
 
