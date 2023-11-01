@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Common.Helper;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Player
@@ -7,6 +8,24 @@ namespace Player
     {
 
         public Vector2 MoveDirection { get; private set; }
+
+        /// <summary>
+        /// 是否按下了x轴
+        /// </summary>
+        public bool AxisXPressed => Mathf.Abs(MoveDirection.x) > Maths.TinyNum;
+        /// <summary>
+        /// 是否按下了y轴
+        /// </summary>
+        public bool AxisYPressed => Mathf.Abs(MoveDirection.y) > Maths.TinyNum;
+        /// <summary>
+        /// 是否按下了向上键
+        /// </summary>
+        public bool UpPressed => MoveDirection.y > 0;
+        /// <summary>
+        /// 是否按下了向下键
+        /// </summary>
+        public bool DownPressed => MoveDirection.y < 0;
+
         /// <summary>
         /// 跳跃按键按下时为true，松开时为false
         /// </summary>
@@ -18,6 +37,10 @@ namespace Player
         public bool JumpPressedImpulse { get; private set; }
 
         public bool DashPressedImpulse { get; private set; }
+        /// <summary>
+        /// 是否按下下滑组合按键
+        /// </summary>
+        public bool SlidePressed => AxisXPressed && DownPressed && JumpPressedImpulse;
 
         public bool ClimbPressed { get; private set; }
 

@@ -1,4 +1,5 @@
-﻿using FSM;
+﻿using Common.Helper;
+using FSM;
 using UnityEngine;
 
 namespace Player.FSM
@@ -35,6 +36,8 @@ namespace Player.FSM
             _facingPositive = PlayerController.facingPositive;
 
             PlayerController.UnarmedAnimator.SetBool(LedgeHangHash, true);
+
+            StickToEdge();
         }
 
         public override void OnExit(StateDefine next)
@@ -46,22 +49,41 @@ namespace Player.FSM
 
         public override void OnStay()
         {
-            // 移动方向与面朝向同向
-            if (IsMoveSameWithFacing)
+            if (PlayerController.AxisXPressed)
             {
-                StateMachine.Translate((int)PlayerStateID.LedgeClimb);
+                // 移动方向与面朝向同向
+                if (IsMoveSameWithFacing)
+                {
+                    StateMachine.Translate((int)PlayerStateID.LedgeClimb);
+                }
+                else
+                {
+                    if (PlayerController.DashPressedImpulse)
+                    {
+                        StateMachine.Translate((int)PlayerStateID.Dash);
+                    }
+                    else if (PlayerController.JumpPressedImpulse)
+                    {
+                        StateMachine.Translate((int)PlayerStateID.WallJump);
+                    }
+                }
             }
             else
             {
-                if (PlayerController.DashPressedImpulse)
+                // 从边缘下落
+                if (PlayerController.DownPressed && PlayerController.JumpPressedImpulse)
                 {
-                    StateMachine.Translate((int)PlayerStateID.Dash);
+                    // 暂停边缘检测并重置跳跃按键，以解决进入Fall立刻起跳的问题
+                    PlayerController.PauseDetectLedge(0.1f);
+                    PlayerController.ResetJumpPressedImpulse(true);
+                    StateMachine.Translate((int)PlayerStateID.Fall);
                 }
                 else if (PlayerController.JumpPressedImpulse)
                 {
-                    StateMachine.Translate((int)PlayerStateID.WallJump);
+                    StateMachine.Translate((int)PlayerStateID.LedgeClimb);
                 }
             }
+
         }
 
         public override void OnFixedStay()
@@ -74,8 +96,8 @@ namespace Player.FSM
             get
             {
                 var moveX = PlayerController.MoveDirection.x;
-                return (_facingPositive && moveX > 0) ||
-                       (!_facingPositive && moveX < 0);
+                return (_facingPositive && moveX > Maths.TinyNum) ||
+                       (!_facingPositive && moveX < Maths.TinyNum);
             }
         }
 
@@ -83,5 +105,19 @@ namespace Player.FSM
         private bool IsTouchSameWithFacing =>
             (PlayerController.facingPositive && PlayerController.TouchLedgeDirection == 1) ||
             (!PlayerController.facingPositive && PlayerController.TouchLedgeDirection == -1);
+
+
+        // 修正人物位置，黏住边缘
+        private void StickToEdge()
+        {
+            var x = PlayerController.TouchLedgeVerticalPoint.x;
+            var y = PlayerController.TouchLedgeHorizontalPoint.y;
+
+            var colliderScale = PlayerController.UnarmedCollider.transform.localScale;
+            var colliderSize = PlayerController.UnarmedCollider.size;
+
+            PlayerController.transform.position = new Vector3(x - PlayerController.TouchLedgeDirection * colliderSize.x * colliderScale.x / 2,
+                y - colliderSize.y * colliderScale.y, 0);
+        }
     }
 }

@@ -13,8 +13,8 @@ namespace Player.FSM
 
         public override StateDefine State { get; } = new StateDefine
         {
-            ID = (int)PlayerStateID.Jump,
-            Name = PlayerStateID.Jump.ToString()
+            ID = (int)PlayerStateID.DoubleJump,
+            Name = PlayerStateID.DoubleJump.ToString()
         };
 
 
@@ -24,12 +24,12 @@ namespace Player.FSM
 
         public override bool CanEnter(StateDefine pre)
         {
-            return PlayerController.IsOnGround || PlayerController.JumpCount < 2;
+            return PlayerController.IsOnAir && PlayerController.JumpCount < 2;
         }
 
         public override void OnEnter(StateDefine pre)
         {
-            Debug.Log($">>> OnEnter JumpState  pre:{pre.Name}");
+            Debug.Log($">>> DoubleJumpState.OnEnter  pre:{pre.Name}");
 
             PlayerController.JumpCount = 2;
 
@@ -67,24 +67,6 @@ namespace Player.FSM
                     StateMachine.Translate((int)PlayerStateID.Dash);
                 }
             }
-            else
-            {
-                PlayerController.ResetJumpCount();
-
-                if (PlayerController.JumpPressedImpulse)
-                {
-                    StateMachine.Translate((int)PlayerStateID.Jump);
-                }
-                else if (Mathf.Abs(PlayerController.MoveDirection.x) < Maths.TinyNum)
-                {
-                    StateMachine.Translate((int)PlayerStateID.Idle);
-                }
-                else if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
-                {
-                    StateMachine.Translate((int)PlayerStateID.Run);
-                }
-            }
-
             PlayerController.Flip();
         }
 

@@ -61,3 +61,9 @@ if (pre.ID == (int)PlayerStateID.Jump)
     return PlayerController.PlayerDetector.IsOnGround && Mathf.Abs(PlayerController.Rigidbody.velocity.y) <= Mathf.Epsilon;
 }
 ```
+
+
+# 特别要求
+
+角色精灵图片的中心点必须设置在底部中心。
+

@@ -67,7 +67,7 @@ namespace Player.FSM
             }
             if (PlayerController.slideDuration < Time.time - _lastTime)
             {
-                if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
+                if (PlayerController.AxisXPressed)
                 {
                     StateMachine.Translate((int)PlayerStateID.Run);
                 }

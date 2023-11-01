@@ -40,9 +40,9 @@ namespace Player
             JumpCount = 0;
         }
 
-        public void ResetJumpPressedImpulse()
+        public void ResetJumpPressedImpulse(bool force = false)
         {
-            if (JumpPressedImpulse && Time.time - _jumpCacheTime > jumpCacheDuration)
+            if (force || (JumpPressedImpulse && Time.time - _jumpCacheTime > jumpCacheDuration))
             {
                 JumpPressedImpulse = false;
             }

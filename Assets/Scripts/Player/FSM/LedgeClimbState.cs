@@ -28,7 +28,7 @@ namespace Player.FSM
 
         public override bool CanEnter(StateDefine pre)
         {
-            return true;
+            return PlayerController.IsTouchLedge;
         }
 
         public override void OnEnter(StateDefine pre)
@@ -63,7 +63,7 @@ namespace Player.FSM
             }
             else
             {
-                if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
+                if (PlayerController.AxisXPressed)
                 {
                     StateMachine.Translate((int)PlayerStateID.Run);
                 }

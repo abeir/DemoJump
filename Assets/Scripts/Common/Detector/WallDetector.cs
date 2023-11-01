@@ -35,6 +35,7 @@ namespace Common.Detector
 
 
         private readonly Collider2D[] _colliders = new Collider2D[1];
+        private float _pausedTime;
 
         public bool Detect()
         {
@@ -62,9 +63,26 @@ namespace Common.Detector
             Gizmos.DrawWireSphere(position + (Vector3)leftCircleCenter, leftCircleRadius);
         }
 
+        public void Pause(float t)
+        {
+            _pausedTime = t;
+        }
+
+        public void Resume()
+        {
+            _pausedTime = 0;
+        }
+
 
         private void FixedUpdate()
         {
+            if (_pausedTime > 0)
+            {
+                isTouchWall = false;
+                TouchWallDirection = 0;
+                _pausedTime -= Time.fixedDeltaTime;
+                return;
+            }
             isTouchWall = Detect();
         }
 

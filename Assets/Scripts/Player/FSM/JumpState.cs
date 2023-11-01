@@ -5,11 +5,18 @@ using UnityEngine;
 
 namespace Player.FSM
 {
+
+    // TODO 存在三段跳问题
+
     public class JumpState : AStateBase
     {
         public static readonly int JumpHash = Animator.StringToHash("Jump");
 
+        // 这是一个用于修复跳跃时仍判断在地面的特殊值，跳跃的高度必须大于这个值才会进行后续操作
+        private const float minJumpHeight = 0.5f;
+
         private Vector2 _velocity = Vector2.zero;
+        private float _positionY;       // 开始跳跃时的Y轴位置
         
         public override StateDefine State { get; } = new StateDefine
         {
@@ -29,7 +36,9 @@ namespace Player.FSM
 
         public override void OnEnter(StateDefine pre)
         {
-            Debug.Log($">>> OnEnter JumpState  pre:{pre.Name}");
+            Debug.Log($">>> JumpState.OnEnter  pre:{pre.Name}");
+
+            _positionY = PlayerController.transform.position.y;
 
             PlayerController.JumpCount = 1;
 
@@ -56,6 +65,14 @@ namespace Player.FSM
 
         public override void OnStay()
         {
+            Debug.Log($"{PlayerController.transform.position.y - _positionY}  {PlayerController.GroundDetectorBox.height}");
+
+            // [HACK] 此处修复跳远时仍然判断在地面上的问题，计算出跳跃的高度，小于某个高度时不做任何处理
+            if (PlayerController.transform.position.y - _positionY < minJumpHeight)
+            {
+                return;
+            }
+
             if (PlayerController.IsOnAir)
             {
                 if (PlayerController.IsTouchLedge)
@@ -66,10 +83,6 @@ namespace Player.FSM
                 {   // 当速度向下，或者松开跳跃键时进入 Fall 状态
                     StateMachine.Translate((int)PlayerStateID.Fall);
                 }
-                else if (PlayerController.JumpPressedImpulse)
-                {
-                    StateMachine.Translate((int)PlayerStateID.Jump);
-                }
                 else if (PlayerController.DashPressedImpulse)
                 {
                     StateMachine.Translate((int)PlayerStateID.Dash);
@@ -77,22 +90,11 @@ namespace Player.FSM
             }
             else
             {
-                PlayerController.ResetJumpCount();
-
-                if (PlayerController.JumpPressedImpulse)
-                {
-                    StateMachine.Translate((int)PlayerStateID.Jump);
-                }
-                else if (Mathf.Abs(PlayerController.MoveDirection.x) < Maths.TinyNum)
-                {
-                    StateMachine.Translate((int)PlayerStateID.Idle);
-                }
-                else if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
+                if (PlayerController.AxisXPressed)
                 {
                     StateMachine.Translate((int)PlayerStateID.Run);
                 }
             }
-
             PlayerController.Flip();
         }
         

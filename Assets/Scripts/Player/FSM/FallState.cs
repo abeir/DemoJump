@@ -23,7 +23,7 @@ namespace Player.FSM
         
         public override bool CanEnter(StateDefine pre)
         {
-            return PlayerController.IsOnAir && !PlayerController.IsTouchLedge;
+            return PlayerController.IsOnAir || PlayerController.IsTouchLedge;
         }
 
         public override void OnEnter(StateDefine pre)
@@ -70,6 +70,9 @@ namespace Player.FSM
                 }
                 else if (PlayerController.JumpPressedImpulse)
                 {
+
+                    Debug.Log($"======= {PlayerController.JumpCount}");
+
                     if (PlayerController.JumpCount == 0)
                     {
                         StateMachine.Translate((int)PlayerStateID.Jump);
@@ -86,7 +89,7 @@ namespace Player.FSM
             }
             else
             {
-                if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
+                if (PlayerController.AxisXPressed)
                 {
                     StateMachine.Translate((int)PlayerStateID.Run);
                 }

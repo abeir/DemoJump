@@ -31,7 +31,7 @@ namespace Common.Detector
         /// </summary>
         public bool IsTouchLedge => isTouchLedge;
         /// <summary>
-        /// 触碰边缘的方向，0表示为碰到边缘，1为右侧碰到，-1为左侧碰到
+        /// 触碰边缘的方向，0表示未碰到边缘，1为右侧碰到，-1为左侧碰到
         /// </summary>
         public int TouchLedgeDirection { get; private set; }
         /// <summary>
@@ -45,6 +45,7 @@ namespace Common.Detector
 
 
         private readonly RaycastHit2D[] _hits = new RaycastHit2D[1];
+        private float _pausedTime;
 
         public bool Detect()
         {
@@ -78,6 +79,16 @@ namespace Common.Detector
             Gizmos.DrawLine(leftOrigin, leftOrigin + new Vector3(-distance, 0, 0));
             Gizmos.DrawLine(leftOrigin + new Vector3(0, spacing, 0), leftOrigin + new Vector3(-distance, spacing, 0));
             Gizmos.DrawLine(leftOrigin + new Vector3(-distance, 0, 0), leftOrigin + new Vector3(-distance, spacing, 0));
+        }
+
+        public void Pause(float t)
+        {
+            _pausedTime = t;
+        }
+
+        public void Resume()
+        {
+            _pausedTime = 0;
         }
 
 
@@ -117,6 +128,16 @@ namespace Common.Detector
 
         private void Update()
         {
+            if (_pausedTime > 0)
+            {
+                isTouchLedge = false;
+                TouchLedgeDirection = 0;
+                TouchVerticalPoint = Vector2.zero;
+                TouchHorizontalPoint = Vector2.zero;
+
+                _pausedTime -= Time.deltaTime;
+                return;
+            }
             isTouchLedge = Detect();
         }
 

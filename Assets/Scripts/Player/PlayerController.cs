@@ -131,6 +131,10 @@ namespace Player
         private void Update()
         {
             _stateMachine.Update();
+            if (IsOnGround || IsOnSlope)
+            {
+                ResetJumpCount();
+            }
         }
 
         private void FixedUpdate()
@@ -139,7 +143,7 @@ namespace Player
             
             // 清除跳跃按键状态，防止多次跳跃
             ResetJumpPressedImpulse();
-            // 清楚冲刺按键状态，防止连续冲刺
+            // 清除冲刺按键状态，防止连续冲刺
             ResetDashPressed();
         }
 

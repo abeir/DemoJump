@@ -7,5 +7,9 @@ namespace Common.Detector
         public bool Detect();
 
         public void DrawGizmos();
+
+        public void Pause(float t);
+
+        public void Resume();
     }
 }

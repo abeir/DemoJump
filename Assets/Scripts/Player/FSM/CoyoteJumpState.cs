@@ -28,6 +28,8 @@ namespace Player.FSM
 
         public override void OnEnter(StateDefine pre)
         {
+            Debug.Log($">>> CoyoteJumpState.OnEnter  pre:{pre.Name}");
+
             _startTime = Time.time;
             _gravityScale = PlayerController.Rigidbody.gravityScale;
             PlayerController.Rigidbody.gravityScale = 0;
@@ -58,17 +60,15 @@ namespace Player.FSM
             }
             else
             {
-                PlayerController.ResetJumpCount();
-
                 if (PlayerController.JumpPressedImpulse)
                 {
                     StateMachine.Translate((int)PlayerStateID.Jump);
                 }
-                else if (Mathf.Abs(PlayerController.MoveDirection.x) < Maths.TinyNum)
+                else if (!PlayerController.AxisXPressed)
                 {
                     StateMachine.Translate((int)PlayerStateID.Idle);
                 }
-                else if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
+                else if (PlayerController.AxisXPressed)
                 {
                     StateMachine.Translate((int)PlayerStateID.Run);
                 }

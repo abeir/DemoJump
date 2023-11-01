@@ -29,6 +29,8 @@ namespace Player.FSM
 
         public override void OnEnter(StateDefine pre)
         {
+            Debug.Log($">>> LandState.OnEnter  pre:{pre.Name}");
+
             PlayerController.UnarmedAnimator.SetBool(LandHash, true);
 
             PlayerFxEvent.TriggerLandDust();
@@ -85,17 +87,15 @@ namespace Player.FSM
             }
             else
             {
-                PlayerController.ResetJumpCount();
-
                 if (PlayerController.JumpPressedImpulse)
                 {
                     StateMachine.Translate((int)PlayerStateID.Jump);
                 }
-                else if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
+                else if (PlayerController.AxisXPressed)
                 {
                     StateMachine.Translate((int)PlayerStateID.Run);
                 }
-                else if (Mathf.Abs(PlayerController.MoveDirection.x) < Maths.TinyNum)
+                else if (!PlayerController.AxisXPressed)
                 {
                     StateMachine.Translate((int)PlayerStateID.Idle);
                 }

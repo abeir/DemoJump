@@ -121,10 +121,12 @@ namespace FSM
         {
             var oldState = _current;
             var nextState = _states[nextID];
-            _previous = oldState;
-            _current = nextState;
+
             oldState.OnExit(nextState.State);
             nextState.OnEnter(oldState.State);
+
+            _previous = oldState;
+            _current = nextState;
         }
 
         private void Print(string msg, bool warning = false)

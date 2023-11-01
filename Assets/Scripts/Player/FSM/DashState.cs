@@ -72,7 +72,7 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.Fall);
                 }
-                else if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
+                else if (PlayerController.AxisXPressed)
                 {
                     StateMachine.Translate((int)PlayerStateID.Run);
                 }

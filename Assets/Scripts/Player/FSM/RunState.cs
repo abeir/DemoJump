@@ -32,8 +32,11 @@ namespace Player.FSM
 
         public override void OnEnter(StateDefine pre)
         {
+            Debug.Log($">>> RunState.OnEnter  pre:{pre.Name}");
 
             PlayerController.UnarmedAnimator.SetBool(MoveHash, true);
+
+            _velocity = Vector2.zero;
         }
 
         public override void OnExit(StateDefine next)
@@ -52,20 +55,18 @@ namespace Player.FSM
         {
             if (PlayerController.IsOnAir)
             {
-                if (Mathf.Abs(PlayerController.MoveDirection.x) > 0)
+                if (PlayerController.AxisXPressed)
                 {
                     StateMachine.Translate((int)PlayerStateID.CoyoteJump);
                 }
             }
             else
             {
-                PlayerController.ResetJumpCount();
-
                 if (PlayerController.DashPressedImpulse)
                 {
                     StateMachine.Translate((int)PlayerStateID.Dash);
                 }
-                else if (Mathf.Abs(PlayerController.MoveDirection.x) > 0 && PlayerController.MoveDirection.y < 0 && PlayerController.JumpPressedImpulse)
+                else if (PlayerController.SlidePressed)
                 {
                     StateMachine.Translate((int)PlayerStateID.Slide);
                 }
@@ -73,7 +74,7 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.Jump);
                 }
-                else if (Mathf.Abs(PlayerController.MoveDirection.x) < Maths.TinyNum)
+                else if (!PlayerController.AxisXPressed && Mathf.Abs(PlayerController.Rigidbody.velocity.x) < Maths.TinyNum)
                 {
                     StateMachine.Translate((int)PlayerStateID.Idle);
                 }
@@ -85,11 +86,17 @@ namespace Player.FSM
         public override void OnFixedStay()
         {
             _direction.Set(PlayerController.MoveDirection.x, 0f);
-            
-            _velocity = Time.fixedDeltaTime * PlayerController.speed * _direction;
-            
-            PlayerController.Rigidbody.velocity = _velocity;
 
+            if (PlayerController.AxisXPressed)
+            {
+                _velocity.x = Mathf.Lerp(_velocity.x, Time.fixedDeltaTime * PlayerController.speed * _direction.x, 0.3f);
+            }
+            else
+            {
+                _velocity = Time.fixedDeltaTime * PlayerController.speed * _direction;
+            }
+
+            PlayerController.Rigidbody.velocity = _velocity;
             PlayerController.UnarmedAnimator.SetFloat(VelocityXHash, Mathf.Abs(PlayerController.MoveDirection.x));
         }
     }
