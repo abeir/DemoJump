@@ -32,7 +32,9 @@ namespace Player
         [SerializeField]
         public float coyoteJumpDuration = 0.05f;     // 土狼跳的持续时间
         [SerializeField]
-        public float jumpDeceleration = 10; // 跳跃时的减速度
+        public float jumpDeceleration = 10; // 跳跃时按住跳跃键的减速度
+        [SerializeField]
+        public float jumpReleaseDeceleration = 100;      // 跳跃时松开跳跃键的减速度
         [SerializeField]
         public float maxFallVelocity = 15;      // 最大下落速度
         [SerializeField, Range(0f, 0.5f)]
@@ -131,10 +133,6 @@ namespace Player
         private void Update()
         {
             _stateMachine.Update();
-            if (IsOnGround || IsOnSlope)
-            {
-                ResetJumpCount();
-            }
         }
 
         private void FixedUpdate()

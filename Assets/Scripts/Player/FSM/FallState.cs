@@ -68,11 +68,8 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.LedgeHang);
                 }
-                else if (PlayerController.JumpPressedImpulse)
+                else if (PlayerController.JumpPressedThisFrame)
                 {
-
-                    Debug.Log($"======= {PlayerController.JumpCount}");
-
                     if (PlayerController.JumpCount == 0)
                     {
                         StateMachine.Translate((int)PlayerStateID.Jump);

@@ -27,9 +27,13 @@ namespace Player
         public bool DownPressed => MoveDirection.y < 0;
 
         /// <summary>
-        /// 跳跃按键按下时为true，松开时为false
+        /// 持续按住跳跃键会返回true，松开时为false
         /// </summary>
-        public bool JumpPressed { get; private set; }
+        public bool JumpPressedKeep { get; private set; }
+        /// <summary>
+        /// 当前帧是否按下了跳跃键
+        /// </summary>
+        public bool JumpPressedThisFrame => _inputActions.Gameplay.Jump.WasPressedThisFrame();
 
         /// <summary>
         /// 跳跃按键的瞬态，当按下跳跃键后为true，经过一段短暂的时间后为false
@@ -42,7 +46,7 @@ namespace Player
         /// </summary>
         public bool SlidePressed => AxisXPressed && DownPressed && JumpPressedImpulse;
 
-        public bool ClimbPressed { get; private set; }
+        public bool ClimbPressedKeep { get; private set; }
 
 
         private bool _inputGameplayEnable;
@@ -93,14 +97,14 @@ namespace Player
             }
             if (context.performed)
             {
-                JumpPressed = true;
+                JumpPressedKeep = true;
                 JumpPressedImpulse = true;
                 _jumpCacheTime = Time.time;
             }
             else if (context.canceled)
             {
-                JumpPressed = false;
-                JumpPressedImpulse = false;
+                JumpPressedKeep = false;
+                // JumpPressedImpulse = false;
             }
         }
 
@@ -130,11 +134,11 @@ namespace Player
             }
             if (context.performed)
             {
-                ClimbPressed = true;
+                ClimbPressedKeep = true;
             }
             else if (context.canceled)
             {
-                ClimbPressed = false;
+                ClimbPressedKeep = false;
             }
         }
     }

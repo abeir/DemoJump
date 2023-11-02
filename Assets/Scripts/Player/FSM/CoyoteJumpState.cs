@@ -51,20 +51,22 @@ namespace Player.FSM
 
         public override void OnStay()
         {
+            Debug.Log($"{PlayerController.JumpPressedImpulse}  {PlayerController.JumpPressedKeep}  {PlayerController.JumpPressedThisFrame}");
+
             if (PlayerController.IsOnAir)
             {
                 if (Time.time - _startTime > PlayerController.coyoteJumpDuration)
                 {
                     StateMachine.Translate((int)PlayerStateID.Fall);
                 }
-            }
-            else
-            {
-                if (PlayerController.JumpPressedImpulse)
+                else if (PlayerController.JumpPressedImpulse)
                 {
                     StateMachine.Translate((int)PlayerStateID.Jump);
                 }
-                else if (!PlayerController.AxisXPressed)
+            }
+            else
+            {
+                if (!PlayerController.AxisXPressed)
                 {
                     StateMachine.Translate((int)PlayerStateID.Idle);
                 }

@@ -60,7 +60,7 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.LedgeHang);
                 }
-                else if (PlayerController.IsVelocityYDown || !PlayerController.JumpPressed)
+                else if (PlayerController.IsVelocityYDown || !PlayerController.JumpPressedKeep)
                 {   // 当速度向下，或者松开跳跃键时进入 Fall 状态
                     StateMachine.Translate((int)PlayerStateID.Fall);
                 }

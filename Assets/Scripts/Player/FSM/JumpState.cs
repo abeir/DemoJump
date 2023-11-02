@@ -6,8 +6,6 @@ using UnityEngine;
 namespace Player.FSM
 {
 
-    // TODO 存在三段跳问题
-
     public class JumpState : AStateBase
     {
         public static readonly int JumpHash = Animator.StringToHash("Jump");
@@ -31,7 +29,7 @@ namespace Player.FSM
         
         public override bool CanEnter(StateDefine pre)
         {
-            return PlayerController.IsOnGround || PlayerController.JumpCount < 2;
+            return PlayerController.IsOnGround || PlayerController.JumpCount < 2 || pre.ID == (int)PlayerStateID.CoyoteJump;
         }
 
         public override void OnEnter(StateDefine pre)
@@ -65,8 +63,6 @@ namespace Player.FSM
 
         public override void OnStay()
         {
-            Debug.Log($"{PlayerController.transform.position.y - _positionY}  {PlayerController.GroundDetectorBox.height}");
-
             // [HACK] 此处修复跳远时仍然判断在地面上的问题，计算出跳跃的高度，小于某个高度时不做任何处理
             if (PlayerController.transform.position.y - _positionY < minJumpHeight)
             {
@@ -79,7 +75,7 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.LedgeHang);
                 }
-                else if (PlayerController.IsVelocityYDown || !PlayerController.JumpPressed)
+                else if (PlayerController.IsVelocityYDown)
                 {   // 当速度向下，或者松开跳跃键时进入 Fall 状态
                     StateMachine.Translate((int)PlayerStateID.Fall);
                 }
@@ -104,14 +100,17 @@ namespace Player.FSM
         {
             _velocity.x = Time.fixedDeltaTime * PlayerController.speed * PlayerController.MoveDirection.x;
             _velocity.y = PlayerController.Rigidbody.velocity.y;
-            
+
             // 跳跃时减速
             if (PlayerController.Rigidbody.velocity.y > Maths.TinyNum)
             {
-                _fallSpeed += Time.fixedDeltaTime * PlayerController.jumpDeceleration;
+                var deceleration = PlayerController.JumpPressedKeep
+                    ? PlayerController.jumpDeceleration
+                    : PlayerController.jumpReleaseDeceleration;
+                _fallSpeed += Time.fixedDeltaTime * deceleration;
                 _velocity.y -= _fallSpeed;
             }
-            
+
             PlayerController.Rigidbody.velocity = _velocity;
         }
     }

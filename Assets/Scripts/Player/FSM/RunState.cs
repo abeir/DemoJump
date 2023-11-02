@@ -62,6 +62,8 @@ namespace Player.FSM
             }
             else
             {
+                PlayerController.ResetJumpCount();
+
                 if (PlayerController.DashPressedImpulse)
                 {
                     StateMachine.Translate((int)PlayerStateID.Dash);
@@ -70,7 +72,7 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.Slide);
                 }
-                else if (PlayerController.JumpPressedImpulse)
+                else if (PlayerController.JumpPressedThisFrame)
                 {
                     StateMachine.Translate((int)PlayerStateID.Jump);
                 }
