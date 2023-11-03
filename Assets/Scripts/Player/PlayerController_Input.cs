@@ -106,7 +106,6 @@ namespace Player
             else if (context.canceled)
             {
                 JumpPressedKeep = false;
-                // JumpPressedImpulse = false;
             }
         }
 

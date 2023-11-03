@@ -73,7 +73,6 @@ namespace Player.FSM
                 }
                 else if (PlayerController.CrouchPressed)
                 {
-                    Debug.Log($"====== {PlayerController.MoveDirection}");
                     StateMachine.Translate((int)PlayerStateID.Crouch);
                 }
             }

@@ -25,7 +25,7 @@ namespace Player.FSM
 
         public override bool CanEnter(StateDefine pre)
         {
-            return PlayerController.IsTouchLedge;
+            return PlayerController.CanWallJump && PlayerController.IsTouchLedge;
         }
 
         public override void OnEnter(StateDefine pre)

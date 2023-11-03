@@ -26,7 +26,8 @@ namespace Player.FSM
         
         public override bool CanEnter(StateDefine pre)
         {
-            return PlayerController.dashCoolingTime < Time.time - _lastTime || _lastTime == 0;
+            return PlayerController.CanDash
+                && (PlayerController.dashCoolingTime < Time.time - _lastTime || _lastTime == 0);
         }
 
         public override void OnEnter(StateDefine pre)

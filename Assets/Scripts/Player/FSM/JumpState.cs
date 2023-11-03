@@ -29,7 +29,11 @@ namespace Player.FSM
         
         public override bool CanEnter(StateDefine pre)
         {
-            return PlayerController.IsOnGround || PlayerController.IsOnSlope || PlayerController.JumpCount < 2 || pre.ID == (int)PlayerStateID.CoyoteJump;
+            return PlayerController.CanJump
+                   && (PlayerController.IsOnGround
+                       || PlayerController.IsOnSlope
+                       || PlayerController.JumpCount < 2
+                       || pre.ID == (int)PlayerStateID.CoyoteJump);
         }
 
         public override void OnEnter(StateDefine pre)

@@ -24,7 +24,7 @@ namespace Player.FSM
 
         public override bool CanEnter(StateDefine pre)
         {
-            return PlayerController.MoveDirection.y < 0 && (PlayerController.slideCoolingTime < Time.time - _lastTime || _lastTime == 0);
+            return PlayerController.CanSlide && PlayerController.MoveDirection.y < 0 && (PlayerController.slideCoolingTime < Time.time - _lastTime || _lastTime == 0);
         }
 
         public override void OnEnter(StateDefine pre)

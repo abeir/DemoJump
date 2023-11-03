@@ -24,7 +24,7 @@ namespace Player.FSM
 
         public override bool CanEnter(StateDefine pre)
         {
-            return PlayerController.CanDoubleJump;
+            return PlayerController.CanJump && PlayerController.CanDoubleJump;
         }
 
         public override void OnEnter(StateDefine pre)

@@ -24,7 +24,8 @@ namespace Player.FSM
 
         public override bool CanEnter(StateDefine pre)
         {
-            return PlayerController.IsOnGround || PlayerController.IsOnSlope;
+            return PlayerController.CanCrouch
+                && (PlayerController.IsOnGround || PlayerController.IsOnSlope);
         }
 
         public override void OnEnter(StateDefine pre)

@@ -1,8 +1,10 @@
 ﻿using System;
 using FSM;
+using Player.Enums;
 using Player.FSM;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Motion = Player.Enums.Motion;
 
 
 namespace Player
@@ -10,15 +12,7 @@ namespace Player
     
     public partial class PlayerController : MonoBehaviour
     {
-        [Flags]
-        public enum JumpMode
-        {
-            None = 0,
-            OnGround = 1,
-            OnSlope = 1 << 1,
-            WhenFalling = 1 << 2,
-            DoubleJump = 1 << 3
-        }
+
 
 
         [SerializeField]
@@ -33,6 +27,9 @@ namespace Player
         [Title("Motion")]
         [SerializeField]
         public bool facingPositive = true;      // 面向正轴
+        [SerializeField]
+        public Motion motion;
+
         [FoldoutGroup("Move"), SerializeField]
         public float speed = 250;
 

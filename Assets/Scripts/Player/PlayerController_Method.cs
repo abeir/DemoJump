@@ -1,25 +1,34 @@
 ﻿using Common.Helper;
+using Player.Enums;
 using UnityEngine;
+using Motion = Player.Enums.Motion;
 
 namespace Player
 {
     public partial class PlayerController
     {
+        public bool CanMove => motion.Contains(Motion.Move);
+        public bool CanJump => motion.Contains(Motion.Jump);
+        public bool CanDash => motion.Contains(Motion.Dash);
+        public bool CanSlide => motion.Contains(Motion.Slide);
+        public bool CanLedge => motion.Contains(Motion.Ledge);
+        public bool CanCrouch => motion.Contains(Motion.Crouch);
+        public bool CanWallJump => motion.Contains(Motion.WallJump);
 
-        public bool CanJumpOnGround => (jumpMode & JumpMode.OnGround) > 0 && IsOnGround;
+        public bool CanJumpOnGround => jumpMode.Contains(JumpMode.OnGround) && IsOnGround;
 
-        public bool CanJumpOnSlope => (jumpMode & JumpMode.OnSlope) > 0 && IsOnSlope;
+        public bool CanJumpOnSlope => jumpMode.Contains(JumpMode.OnSlope) && IsOnSlope;
 
-        public bool CanJumpWhenFalling => (jumpMode & JumpMode.WhenFalling) > 0;
+        public bool CanJumpWhenFalling => jumpMode.Contains(JumpMode.WhenFalling);
 
-        public bool CanDoubleJump => (jumpMode & JumpMode.DoubleJump) > 0 && JumpCount == 1 && IsOnAir;
+        public bool CanDoubleJump => jumpMode.Contains(JumpMode.DoubleJump) && JumpCount == 1 && IsOnAir;
 
 
         public bool CheckJumpMode(JumpMode mode)
         {
-            return (jumpMode & mode) > 0;
+            return jumpMode.Contains(mode);
         }
-        
+
         
         public void Flip()
         {

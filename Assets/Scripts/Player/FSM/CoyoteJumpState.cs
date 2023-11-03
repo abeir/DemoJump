@@ -1,5 +1,6 @@
 ﻿using Common.Helper;
 using FSM;
+using Player.Enums;
 using UnityEngine;
 
 namespace Player.FSM
@@ -60,8 +61,8 @@ namespace Player.FSM
                     StateMachine.Translate((int)PlayerStateID.Fall);
                 }
                 else if (PlayerController.JumpPressedImpulse
-                         && (PlayerController.CheckJumpMode(PlayerController.JumpMode.OnGround)
-                             || PlayerController.CheckJumpMode(PlayerController.JumpMode.OnSlope)))
+                         && (PlayerController.CheckJumpMode(JumpMode.OnGround)
+                             || PlayerController.CheckJumpMode(JumpMode.OnSlope)))
                 {
                     StateMachine.Translate((int)PlayerStateID.Jump);
                 }

@@ -431,7 +431,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.007358016, y: 0.25039, z: -10}
+  m_LocalPosition: {x: -0.0087614115, y: 0.25051, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4268,8 +4268,9 @@ MonoBehaviour:
   stateConfig: {fileID: 11400000, guid: c5e2d476586dab047829a7a10958b90c, type: 2}
   simpleStateMachine: 1
   facingPositive: 1
+  motion: 2147483647
   speed: 250
-  jumpMode: 7
+  jumpMode: 15
   jumpForce: 20
   doubleJumpForce: 25
   jumpCacheDuration: 0.1
@@ -4286,6 +4287,7 @@ MonoBehaviour:
   slideCoolingTime: 0.5
   slideDuration: 0.3
   ledgeClimbDuration: 0.6
+  crawlSpeed: 100
   crouchColliderOffset: {x: -0.021, y: 0.37}
   crouchColliderSize: {x: 0.297, y: 0.78}
   defaultFriction: {fileID: 6200000, guid: 415177fe825f5524e9311ef5247947e5, type: 2}
