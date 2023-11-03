@@ -13,6 +13,7 @@ namespace Player
         public bool CanSlide => motion.Contains(Motion.Slide);
         public bool CanLedge => motion.Contains(Motion.Ledge);
         public bool CanCrouch => motion.Contains(Motion.Crouch);
+        public bool CanWall => motion.Contains(Motion.Wall);
         public bool CanWallJump => motion.Contains(Motion.WallJump);
 
         public bool CanJumpOnGround => jumpMode.Contains(JumpMode.OnGround) && IsOnGround;

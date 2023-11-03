@@ -6,6 +6,7 @@ TagManager:
   tags:
   - OneWayPlatform
   - Platform
+  - Wall
   layers:
   - Default
   - TransparentFX

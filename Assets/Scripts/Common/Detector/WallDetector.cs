@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using Common.Settings;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Common.Detector
@@ -40,13 +41,13 @@ namespace Common.Detector
         public bool Detect()
         {
             var count = Physics2D.OverlapCircleNonAlloc((Vector2)transform.position + rightCircleCenter, rightCircleRadius, _colliders, layer);
-            if (count > 0)
+            if (count > 0 && _colliders[0].CompareTag(Tags.Wall))
             {
                 TouchWallDirection = 1;
                 return true;
             }
             count = Physics2D.OverlapCircleNonAlloc((Vector2)transform.position + leftCircleCenter, leftCircleRadius, _colliders, layer);
-            if (count > 0)
+            if (count > 0 && _colliders[0].CompareTag(Tags.Wall))
             {
                 TouchWallDirection = -1;
                 return true;

@@ -82,6 +82,10 @@ namespace Player.FSM
                     StateMachine.Translate((int)PlayerStateID.Idle);
                 }
             }
+            else if (PlayerController.ClimbPressedKeep)
+            {
+                StateMachine.Translate((int)PlayerStateID.WallIdle);
+            }
         }
 
         public override void OnFixedStay()

@@ -89,6 +89,10 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.Crouch);
                 }
+                else if (PlayerController.ClimbPressedKeep)
+                {
+                    StateMachine.Translate((int)PlayerStateID.WallIdle);
+                }
             }
             PlayerController.Flip();
         }

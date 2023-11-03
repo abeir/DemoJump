@@ -70,8 +70,11 @@ namespace Player.FSM
             }
             else
             {
-                // 从边缘下落
-                if (PlayerController.DownPressed && PlayerController.JumpPressedImpulse)
+                if (PlayerController.UpPressed)
+                {
+                    StateMachine.Translate((int)PlayerStateID.LedgeClimb);
+                }
+                else if (PlayerController.DownPressed && PlayerController.JumpPressedImpulse)   // 从边缘下落
                 {
                     // 暂停边缘检测并重置跳跃按键，以解决进入Fall立刻起跳的问题
                     PlayerController.PauseDetectLedge(0.1f);

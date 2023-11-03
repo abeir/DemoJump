@@ -12,7 +12,8 @@ namespace Player.Enums
         Slide = 1 << 3,
         Ledge = 1 << 4,
         Crouch = 1 << 5,
-        WallJump = 1 << 6,
+        Wall = 1 << 6,
+        WallJump = 1 << 7,
 
         All = int.MaxValue
     }

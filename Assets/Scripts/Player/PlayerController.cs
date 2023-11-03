@@ -78,6 +78,11 @@ namespace Player
         [FoldoutGroup("Crouch"), SerializeField]
         public Vector2 crouchColliderSize;         // 蹲下时的碰撞体大小
 
+        [FoldoutGroup("Wall"), SerializeField]
+        public float wallClimbSpeed = 100;          // 爬墙速度
+        [FoldoutGroup("Wall"), SerializeField]
+        public float wallSlideSpeed = 60;       // 在墙上的下滑速度
+
 
         [Title("Physic Material")]
         [SerializeField]

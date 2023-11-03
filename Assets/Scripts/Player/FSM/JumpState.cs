@@ -91,6 +91,10 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.DoubleJump);
                 }
+                else if (PlayerController.ClimbPressedKeep)
+                {
+                    StateMachine.Translate((int)PlayerStateID.WallIdle);
+                }
             }
             else
             {

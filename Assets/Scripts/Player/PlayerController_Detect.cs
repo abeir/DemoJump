@@ -24,6 +24,9 @@ namespace Player
         public Vector2 TouchLedgeHorizontalPoint => _ledgeDetector.TouchHorizontalPoint;
 
 
+        public bool IsTouchWall => _wallDetector.IsTouchWall;
+        public int TouchWallDirection => _wallDetector.TouchWallDirection;
+
 
         private GroundDetector _groundDetector;
         private LedgeDetector _ledgeDetector;
