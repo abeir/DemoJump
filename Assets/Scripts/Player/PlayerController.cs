@@ -1,4 +1,5 @@
-﻿using FSM;
+﻿using System;
+using FSM;
 using Player.FSM;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -9,6 +10,17 @@ namespace Player
     
     public partial class PlayerController : MonoBehaviour
     {
+        [Flags]
+        public enum JumpMode
+        {
+            None = 0,
+            OnGround = 1,
+            OnSlope = 1 << 1,
+            WhenFalling = 1 << 2,
+            DoubleJump = 1 << 3
+        }
+
+
         [SerializeField]
         private Transform unarmedTransform;
         [SerializeField]
@@ -21,42 +33,45 @@ namespace Player
         [Title("Motion")]
         [SerializeField]
         public bool facingPositive = true;      // 面向正轴
-        [SerializeField]
+        [FoldoutGroup("Move"), SerializeField]
         public float speed = 250;
-        [SerializeField]
+
+        [FoldoutGroup("Jump"), SerializeField]
+        public JumpMode jumpMode;      // 跳跃模式
+        [FoldoutGroup("Jump"), SerializeField]
         public float jumpForce = 20;     // 跳跃的力量
-        [SerializeField]
+        [FoldoutGroup("Jump"), SerializeField]
         public float doubleJumpForce = 25;
-        [SerializeField]
+        [FoldoutGroup("Jump"), SerializeField]
         public float jumpCacheDuration = 0.1f;      // 跳跃键缓存的时长
-        [SerializeField]
+        [FoldoutGroup("Jump"), SerializeField]
         public float coyoteJumpDuration = 0.05f;     // 土狼跳的持续时间
-        [SerializeField]
+        [FoldoutGroup("Jump"), SerializeField]
         public float jumpDeceleration = 10; // 跳跃时按住跳跃键的减速度
-        [SerializeField]
+        [FoldoutGroup("Jump"), SerializeField]
         public float jumpReleaseDeceleration = 100;      // 跳跃时松开跳跃键的减速度
-        [SerializeField]
+        [FoldoutGroup("Jump"), SerializeField]
         public float maxFallVelocity = 15;      // 最大下落速度
-        [SerializeField, Range(0f, 0.5f)]
+        [FoldoutGroup("Jump"), SerializeField, Range(0f, 0.5f)]
         public float fallAcceleration = 0.1f;      // 下落加速度
 
-        [SerializeField]
+        [FoldoutGroup("Dash"), SerializeField]
         public float dashSpeed = 550;       // 冲刺速度
-        [SerializeField]
+        [FoldoutGroup("Dash"), SerializeField]
         public float dashCoolingTime = 0.5f;      // 冲刺冷却时间
-        [SerializeField]
+        [FoldoutGroup("Dash"), SerializeField]
         public float dashDuration = 0.3f;       // 冲刺持续时间
-        [SerializeField]
+        [FoldoutGroup("Dash"), SerializeField]
         public float dashCacheDuration = 0.1f;      // 冲刺缓存的时长
 
-        [SerializeField]
+        [FoldoutGroup("Slide"), SerializeField]
         public float slideSpeed = 450;      // 滑行速度
-        [SerializeField]
+        [FoldoutGroup("Slide"), SerializeField]
         public float slideCoolingTime = 0.5f;      // 滑行冷却时间
-        [SerializeField]
+        [FoldoutGroup("Slide"), SerializeField]
         public float slideDuration = 0.3f;       // 滑行持续时间
 
-        [SerializeField]
+        [FoldoutGroup("Ledge"), SerializeField]
         public float ledgeClimbDuration = 0.6f;     // 边缘爬升的持续时间
 
 

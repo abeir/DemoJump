@@ -5,6 +5,20 @@ namespace Player
 {
     public partial class PlayerController
     {
+
+        public bool CanJumpOnGround => (jumpMode & JumpMode.OnGround) > 0 && IsOnGround;
+
+        public bool CanJumpOnSlope => (jumpMode & JumpMode.OnSlope) > 0 && IsOnSlope;
+
+        public bool CanJumpWhenFalling => (jumpMode & JumpMode.WhenFalling) > 0;
+
+        public bool CanDoubleJump => (jumpMode & JumpMode.DoubleJump) > 0 && JumpCount == 1 && IsOnAir;
+
+
+        public bool CheckJumpMode(JumpMode mode)
+        {
+            return (jumpMode & mode) > 0;
+        }
         
         
         public void Flip()
@@ -34,6 +48,7 @@ namespace Player
                 SpriteRenderer.flipX = true;
             }
         }
+
 
         public void ResetJumpCount()
         {

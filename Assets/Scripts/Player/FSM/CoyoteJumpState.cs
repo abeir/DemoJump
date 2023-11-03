@@ -59,7 +59,9 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.Fall);
                 }
-                else if (PlayerController.JumpPressedImpulse)
+                else if (PlayerController.JumpPressedImpulse
+                         && (PlayerController.CheckJumpMode(PlayerController.JumpMode.OnGround)
+                             || PlayerController.CheckJumpMode(PlayerController.JumpMode.OnSlope)))
                 {
                     StateMachine.Translate((int)PlayerStateID.Jump);
                 }

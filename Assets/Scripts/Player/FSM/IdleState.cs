@@ -62,7 +62,8 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.Slide);
                 }
-                else if (PlayerController.JumpPressedThisFrame)
+                else if (PlayerController.JumpPressedThisFrame
+                         && (PlayerController.CanJumpOnGround || PlayerController.CanJumpOnSlope))
                 {
                     StateMachine.Translate((int)PlayerStateID.Jump);
                 }

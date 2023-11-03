@@ -29,7 +29,7 @@ namespace Player.FSM
         
         public override bool CanEnter(StateDefine pre)
         {
-            return PlayerController.IsOnGround || PlayerController.JumpCount < 2 || pre.ID == (int)PlayerStateID.CoyoteJump;
+            return PlayerController.IsOnGround || PlayerController.IsOnSlope || PlayerController.JumpCount < 2 || pre.ID == (int)PlayerStateID.CoyoteJump;
         }
 
         public override void OnEnter(StateDefine pre)
@@ -44,7 +44,7 @@ namespace Player.FSM
 
             PlayerController.UnarmedAnimator.SetBool(JumpHash, true);
 
-            if (PlayerController.IsOnGround || PlayerController.IsOnSlope)
+            if (PlayerController.IsOnGround || PlayerController.IsOnSlope || pre.ID == (int)PlayerStateID.CoyoteJump)
             {
                 PlayerFxEvent.TriggerJumpDust();
             }
@@ -82,6 +82,10 @@ namespace Player.FSM
                 else if (PlayerController.DashPressedImpulse)
                 {
                     StateMachine.Translate((int)PlayerStateID.Dash);
+                }
+                else if (PlayerController.JumpPressedThisFrame && PlayerController.CanDoubleJump)
+                {
+                    StateMachine.Translate((int)PlayerStateID.DoubleJump);
                 }
             }
             else

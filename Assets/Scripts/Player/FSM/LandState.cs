@@ -1,5 +1,4 @@
-﻿using Common.Helper;
-using FSM;
+﻿using FSM;
 using Player.FX;
 using UnityEngine;
 
@@ -87,7 +86,8 @@ namespace Player.FSM
             }
             else
             {
-                if (PlayerController.JumpPressedImpulse)
+                if (PlayerController.JumpPressedImpulse
+                    && (PlayerController.CanJumpOnGround || PlayerController.CanJumpOnSlope))
                 {
                     StateMachine.Translate((int)PlayerStateID.Jump);
                 }

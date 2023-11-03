@@ -70,11 +70,11 @@ namespace Player.FSM
                 }
                 else if (PlayerController.JumpPressedThisFrame)
                 {
-                    if (PlayerController.JumpCount == 0)
+                    if (PlayerController.JumpCount == 0 && PlayerController.CanJumpWhenFalling)
                     {
                         StateMachine.Translate((int)PlayerStateID.Jump);
                     }
-                    else if(PlayerController.JumpCount == 1)
+                    else if(PlayerController.JumpCount == 1 && PlayerController.CanJumpWhenFalling)
                     {
                             StateMachine.Translate((int)PlayerStateID.DoubleJump);
                     }
