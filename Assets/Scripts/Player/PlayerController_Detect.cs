@@ -13,6 +13,8 @@ namespace Player
         public bool IsOnSlope { get; private set; }
         public bool IsOnAir => !IsOnGround && !IsOnSlope;
 
+        public bool IsOnOneWayPlatform => _groundDetector.IsOnOneWayPlatform;
+
         public bool IsTouchLedge => _ledgeDetector.IsTouchLedge;
         /// <summary>
         /// 触碰边缘的方向，0表示未碰到边缘，1为右侧碰到，-1为左侧碰到

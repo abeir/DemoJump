@@ -81,6 +81,14 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.Idle);
                 }
+                else if (PlayerController.DownPressed && PlayerController.AxisXPressed)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Crawl);
+                }
+                else if (PlayerController.DownPressed && !PlayerController.AxisXPressed)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Crouch);
+                }
             }
             PlayerController.Flip();
         }

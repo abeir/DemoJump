@@ -71,6 +71,11 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.Run);
                 }
+                else if (PlayerController.CrouchPressed)
+                {
+                    Debug.Log($"====== {PlayerController.MoveDirection}");
+                    StateMachine.Translate((int)PlayerStateID.Crouch);
+                }
             }
         }
 

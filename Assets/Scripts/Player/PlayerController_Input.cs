@@ -20,11 +20,11 @@ namespace Player
         /// <summary>
         /// 是否按下了向上键
         /// </summary>
-        public bool UpPressed => MoveDirection.y > 0;
+        public bool UpPressed => MoveDirection.y > Maths.TinyNum;
         /// <summary>
         /// 是否按下了向下键
         /// </summary>
-        public bool DownPressed => MoveDirection.y < 0;
+        public bool DownPressed => MoveDirection.y < -Maths.TinyNum;
 
         /// <summary>
         /// 持续按住跳跃键会返回true，松开时为false
@@ -45,6 +45,8 @@ namespace Player
         /// 是否按下下滑组合按键
         /// </summary>
         public bool SlidePressed => AxisXPressed && DownPressed && JumpPressedImpulse;
+
+        public bool CrouchPressed => DownPressed;
 
         public bool ClimbPressedKeep { get; private set; }
 

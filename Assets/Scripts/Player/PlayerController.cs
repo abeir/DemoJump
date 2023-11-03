@@ -74,6 +74,13 @@ namespace Player
         [FoldoutGroup("Ledge"), SerializeField]
         public float ledgeClimbDuration = 0.6f;     // 边缘爬升的持续时间
 
+        [FoldoutGroup("Crouch"), SerializeField]
+        public float crawlSpeed = 100;            //蹲下时的移动速度
+        [FoldoutGroup("Crouch"), SerializeField]
+        public Vector2 crouchColliderOffset;         // 蹲下时的碰撞体偏移量
+        [FoldoutGroup("Crouch"), SerializeField]
+        public Vector2 crouchColliderSize;         // 蹲下时的碰撞体大小
+
 
         [Title("Physic Material")]
         [SerializeField]

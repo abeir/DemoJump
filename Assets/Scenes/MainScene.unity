@@ -4269,7 +4269,7 @@ MonoBehaviour:
   simpleStateMachine: 1
   facingPositive: 1
   speed: 250
-  jumpMode: 15
+  jumpMode: 7
   jumpForce: 20
   doubleJumpForce: 25
   jumpCacheDuration: 0.1
@@ -4286,6 +4286,8 @@ MonoBehaviour:
   slideCoolingTime: 0.5
   slideDuration: 0.3
   ledgeClimbDuration: 0.6
+  crouchColliderOffset: {x: -0.021, y: 0.37}
+  crouchColliderSize: {x: 0.297, y: 0.78}
   defaultFriction: {fileID: 6200000, guid: 415177fe825f5524e9311ef5247947e5, type: 2}
   zeroFriction: {fileID: 6200000, guid: 5a9e56534e1caa94e93fe086fd706923, type: 2}
   debug: 0

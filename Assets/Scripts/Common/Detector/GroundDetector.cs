@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Common.Settings;
+using UnityEngine;
 
 namespace Common.Detector
 {
@@ -17,6 +18,8 @@ namespace Common.Detector
         private bool isOnGround;
 
         public bool IsOnGround => isOnGround;
+
+        public bool IsOnOneWayPlatform { get; private set; }
         
         
         private readonly Collider2D[] _groundColliders = new Collider2D[1];
@@ -26,7 +29,15 @@ namespace Common.Detector
         {
             var count = Physics2D.OverlapBoxNonAlloc((Vector2)transform.position + box.center,
                 box.size, 0, _groundColliders, layer);
-            return count > 0;
+
+            if (count > 0)
+            {
+                IsOnOneWayPlatform = _groundColliders[0].CompareTag(Tags.OneWayPlatform);
+                return true;
+            }
+
+            IsOnOneWayPlatform = false;
+            return false;
         }
 
         public void DrawGizmos()

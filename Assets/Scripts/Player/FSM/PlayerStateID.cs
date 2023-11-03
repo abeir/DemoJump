@@ -18,6 +18,8 @@ namespace Player.FSM
         WallIdle,
         WallClimb,
         WallJump,
-        WallSlide
+        WallSlide,
+        Crouch,
+        Crawl
     }
 }
