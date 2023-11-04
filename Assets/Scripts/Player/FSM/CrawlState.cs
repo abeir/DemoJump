@@ -30,6 +30,8 @@ namespace Player.FSM
 
         public override void OnEnter(StateDefine pre)
         {
+            Debug.Log($">>> CrawlState.OnEnter  pre:{pre.Name}");
+            
             var collider = PlayerController.UnarmedCollider;
             _colliderSize = collider.size;
             _colliderOffset  = collider.offset;
@@ -93,14 +95,9 @@ namespace Player.FSM
 
             if (PlayerController.AxisXPressed)
             {
-                _velocity.x = Mathf.Lerp(_velocity.x, Time.fixedDeltaTime * PlayerController.crawlSpeed * _direction.x, 0.3f);
+                _velocity.x = Mathf.Lerp(_velocity.x, Time.fixedDeltaTime * PlayerController.crawlSpeed * _direction.x, PlayerController.crawlAcceleration);
+                PlayerController.Rigidbody.velocity = _velocity;
             }
-            else
-            {
-                _velocity = Time.fixedDeltaTime * PlayerController.crawlSpeed * _direction;
-            }
-
-            PlayerController.Rigidbody.velocity = _velocity;
         }
     }
 }

@@ -85,7 +85,7 @@ namespace Player.FSM
         {
             _direction.Set(PlayerController.MoveDirection.x, 0f);
 
-            _velocity = Time.fixedDeltaTime * PlayerController.speed * _direction;
+            _velocity = Time.fixedDeltaTime * PlayerController.moveSpeed * _direction;
 
             PlayerController.Rigidbody.velocity = _velocity;
 

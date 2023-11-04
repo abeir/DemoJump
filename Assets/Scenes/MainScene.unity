@@ -316,10 +316,11 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 1024
-  rightCircleCenter: {x: 0.17, y: 0.45}
-  rightCircleRadius: 0.1
-  leftCircleCenter: {x: -0.17, y: 0.45}
-  leftCircleRadius: 0.1
+  rightPoint: {x: 0.1, y: 0.45}
+  rightDistance: 0.2
+  leftPoint: {x: -0.1, y: 0.45}
+  leftDistance: 0.2
+  topOffset: 0.7
   color: {r: 1, g: 0, b: 0.77627563, a: 1}
   isTouchWall: 0
 --- !u!114 &210216450
@@ -431,7 +432,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0087614115, y: 0.25051, z: -10}
+  m_LocalPosition: {x: -0.007154021, y: 0.25037998, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4521,7 +4522,9 @@ MonoBehaviour:
   simpleStateMachine: 1
   facingPositive: 1
   motion: 2147483647
-  speed: 250
+  moveSpeed: 250
+  moveAcceleration: 0.3
+  moveDeceleration: 0.6
   jumpMode: 15
   jumpForce: 20
   doubleJumpForce: 25
@@ -4540,6 +4543,8 @@ MonoBehaviour:
   slideDuration: 0.3
   ledgeClimbDuration: 0.6
   crawlSpeed: 100
+  crawlAcceleration: 0.3
+  crawlDeceleration: 0.4
   crouchColliderOffset: {x: -0.021, y: 0.37}
   crouchColliderSize: {x: 0.297, y: 0.78}
   wallClimbSpeed: 100

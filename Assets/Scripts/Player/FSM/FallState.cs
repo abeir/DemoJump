@@ -107,7 +107,7 @@ namespace Player.FSM
         
         public override void OnFixedStay()
         {
-            _velocity.x = Time.fixedDeltaTime * PlayerController.speed * PlayerController.MoveDirection.x;
+            _velocity.x = Time.fixedDeltaTime * PlayerController.moveSpeed * PlayerController.MoveDirection.x;
             
             _fallSpeed = Mathf.Lerp(_fallSpeed, PlayerController.maxFallVelocity, PlayerController.fallAcceleration);
             _velocity.y = -_fallSpeed;

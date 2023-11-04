@@ -26,6 +26,8 @@ namespace Player
 
         public bool IsTouchWall => _wallDetector.IsTouchWall;
         public int TouchWallDirection => _wallDetector.TouchWallDirection;
+        public Vector2 TouchWallTopPoint => _wallDetector.TouchWallTopPoint;
+        public Vector2 TouchWallMiddlePoint => _wallDetector.TouchWallMiddlePoint;
 
 
         private GroundDetector _groundDetector;

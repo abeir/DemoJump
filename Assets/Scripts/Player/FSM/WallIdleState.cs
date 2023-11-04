@@ -32,6 +32,8 @@ namespace Player.FSM
             PlayerController.Rigidbody.gravityScale = 0;
 
             PlayerController.UnarmedAnimator.SetBool(WallIdleHash, true);
+            
+            StickToEdge();
         }
 
         public override void OnExit(StateDefine next)
@@ -74,6 +76,19 @@ namespace Player.FSM
 
         public override void OnFixedStay()
         {
+        }
+        
+        // 修正人物位置，黏住边缘
+        private void StickToEdge()
+        {
+            var x = PlayerController.TouchWallMiddlePoint.x;
+
+            var colliderScale = PlayerController.UnarmedCollider.transform.localScale;
+            var colliderSize = PlayerController.UnarmedCollider.size;
+
+            var transform = PlayerController.transform;
+            transform.position = new Vector3(x - PlayerController.TouchWallDirection * colliderSize.x * colliderScale.x / 2,
+                transform.position.y, 0);
         }
     }
 }

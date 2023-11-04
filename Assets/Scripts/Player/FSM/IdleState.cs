@@ -1,4 +1,5 @@
-﻿using FSM;
+﻿using Common.Helper;
+using FSM;
 using UnityEngine;
 
 namespace Player.FSM
@@ -12,6 +13,8 @@ namespace Player.FSM
             ID = (int)PlayerStateID.Idle,
             Name = PlayerStateID.Idle.ToString()
         };
+        
+        private Vector2 _velocity;
         
         public IdleState(PlayerController p) : base(p)
         {
@@ -33,6 +36,9 @@ namespace Player.FSM
 
         public override void OnEnter(StateDefine pre)
         {
+            Debug.Log($">>> IdleState.OnEnter  pre:{pre.Name}");
+            
+            _velocity = PlayerController.Rigidbody.velocity;
             PlayerController.UnarmedAnimator.SetBool(IdleHash, true);
         }
 
@@ -84,6 +90,11 @@ namespace Player.FSM
 
         public override void OnFixedStay()
         {
+            if (Mathf.Abs(_velocity.x) > Maths.TinyNum)
+            {
+                _velocity.x = Mathf.Lerp(_velocity.x, 0, PlayerController.moveDeceleration);
+                PlayerController.Rigidbody.velocity = _velocity;
+            }
         }
 
     }

@@ -31,7 +31,11 @@ namespace Player
         public Motion motion;
 
         [FoldoutGroup("Move"), SerializeField]
-        public float speed = 250;
+        public float moveSpeed = 250;
+        [FoldoutGroup("Move"), SerializeField, Range(0f, 1f)]
+        public float moveAcceleration = 0.3f;       // 移动的加速度
+        [FoldoutGroup("Move"), SerializeField, Range(0f, 1f)]
+        public float moveDeceleration = 0.4f;       // 移动转换成IDLE时的减速度
 
         [FoldoutGroup("Jump"), SerializeField]
         public JumpMode jumpMode;      // 跳跃模式
@@ -70,9 +74,13 @@ namespace Player
 
         [FoldoutGroup("Ledge"), SerializeField]
         public float ledgeClimbDuration = 0.6f;     // 边缘爬升的持续时间
-
+        
         [FoldoutGroup("Crouch"), SerializeField]
         public float crawlSpeed = 100;            //蹲下时的移动速度
+        [FoldoutGroup("Crouch"), SerializeField, Range(0f, 1f)]
+        public float crawlAcceleration = 0.3f;       // 蹲下移动的加速度
+        [FoldoutGroup("Crouch"), SerializeField, Range(0f, 1f)]
+        public float crawlDeceleration = 0.4f;      // 蹲下移动转换为蹲下静止时的减速度
         [FoldoutGroup("Crouch"), SerializeField]
         public Vector2 crouchColliderOffset;         // 蹲下时的碰撞体偏移量
         [FoldoutGroup("Crouch"), SerializeField]

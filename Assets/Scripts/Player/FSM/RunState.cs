@@ -43,12 +43,12 @@ namespace Player.FSM
         {
             PlayerController.UnarmedAnimator.SetBool(MoveHash, false);
 
-            if (Mathf.Abs(PlayerController.MoveDirection.x) > Maths.TinyNum)
-            {
-                return;
-            }
-            _velocity.Set(0f, PlayerController.Rigidbody.velocity.y);
-            PlayerController.Rigidbody.velocity = _velocity;
+            // if (Mathf.Abs(PlayerController.MoveDirection.x) > Maths.TinyNum)
+            // {
+            //     return;
+            // }
+            // _velocity.Set(0f, PlayerController.Rigidbody.velocity.y);
+            // PlayerController.Rigidbody.velocity = _velocity;
         }
 
         public override void OnStay()
@@ -77,10 +77,6 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.Jump);
                 }
-                else if (!PlayerController.AxisXPressed && Mathf.Abs(PlayerController.Rigidbody.velocity.x) < Maths.TinyNum)
-                {
-                    StateMachine.Translate((int)PlayerStateID.Idle);
-                }
                 else if (PlayerController.DownPressed && PlayerController.AxisXPressed)
                 {
                     StateMachine.Translate((int)PlayerStateID.Crawl);
@@ -93,6 +89,10 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.WallIdle);
                 }
+                else if (!PlayerController.AxisXPressed)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Idle);
+                }
             }
             PlayerController.Flip();
         }
@@ -104,15 +104,10 @@ namespace Player.FSM
 
             if (PlayerController.AxisXPressed)
             {
-                _velocity.x = Mathf.Lerp(_velocity.x, Time.fixedDeltaTime * PlayerController.speed * _direction.x, 0.3f);
+                _velocity.x = Mathf.Lerp(_velocity.x, Time.fixedDeltaTime * PlayerController.moveSpeed * _direction.x, PlayerController.moveAcceleration);
+                PlayerController.Rigidbody.velocity = _velocity;
             }
-            else
-            {
-                _velocity = Time.fixedDeltaTime * PlayerController.speed * _direction;
-            }
-
-            PlayerController.Rigidbody.velocity = _velocity;
-            PlayerController.UnarmedAnimator.SetFloat(VelocityXHash, Mathf.Abs(PlayerController.MoveDirection.x));
+            PlayerController.UnarmedAnimator.SetFloat(VelocityXHash, Mathf.Abs(_direction.x));
         }
     }
 }

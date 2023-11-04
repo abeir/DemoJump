@@ -110,7 +110,7 @@ namespace Player.FSM
 
         public override void OnFixedStay()
         {
-            _velocity.x = Time.fixedDeltaTime * PlayerController.speed * PlayerController.MoveDirection.x;
+            _velocity.x = Time.fixedDeltaTime * PlayerController.moveSpeed * PlayerController.MoveDirection.x;
             _velocity.y = PlayerController.Rigidbody.velocity.y;
 
             // 跳跃时减速

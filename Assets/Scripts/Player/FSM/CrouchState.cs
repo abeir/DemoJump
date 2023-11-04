@@ -1,4 +1,5 @@
-﻿using FSM;
+﻿using Common.Helper;
+using FSM;
 using UnityEngine;
 
 namespace Player.FSM
@@ -17,6 +18,7 @@ namespace Player.FSM
 
         private Vector2 _colliderSize;
         private Vector2 _colliderOffset;
+        private Vector2 _velocity;
 
         public CrouchState(PlayerController ctrl) : base(ctrl)
         {
@@ -30,12 +32,16 @@ namespace Player.FSM
 
         public override void OnEnter(StateDefine pre)
         {
+            Debug.Log($">>> CrouchState.OnEnter  pre:{pre.Name}");
+            
             var collider = PlayerController.UnarmedCollider;
             _colliderSize = collider.size;
             _colliderOffset  = collider.offset;
 
             collider.size = PlayerController.crouchColliderSize;
             collider.offset = PlayerController.crouchColliderOffset;
+
+            _velocity = PlayerController.Rigidbody.velocity;
 
             PlayerController.UnarmedAnimator.SetBool(CrouchHash, true);
         }
@@ -85,6 +91,11 @@ namespace Player.FSM
 
         public override void OnFixedStay()
         {
+            if (Mathf.Abs(_velocity.x) > Maths.TinyNum)
+            {
+                _velocity.x = Mathf.Lerp(_velocity.x, 0, PlayerController.crawlDeceleration);
+                PlayerController.Rigidbody.velocity = _velocity;
+            }
         }
     }
 }

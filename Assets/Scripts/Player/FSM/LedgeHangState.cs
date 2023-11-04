@@ -74,11 +74,10 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.LedgeClimb);
                 }
-                else if (PlayerController.DownPressed && PlayerController.JumpPressedImpulse)   // 从边缘下落
+                else if (PlayerController.DownPressed)   // 从边缘下落
                 {
                     // 暂停边缘检测并重置跳跃按键，以解决进入Fall立刻起跳的问题
                     PlayerController.PauseDetectLedge(0.1f);
-                    PlayerController.ResetJumpPressedImpulse(true);
                     StateMachine.Translate((int)PlayerStateID.Fall);
                 }
                 else if (PlayerController.JumpPressedImpulse)
