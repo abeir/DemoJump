@@ -1,5 +1,6 @@
 ﻿using Common.Helper;
 using FSM;
+using Player.FX;
 using UnityEngine;
 
 namespace Player.FSM
@@ -37,18 +38,15 @@ namespace Player.FSM
             PlayerController.UnarmedAnimator.SetBool(MoveHash, true);
 
             _velocity = Vector2.zero;
+
+            PlayerParticleFxEvent.TriggerRunDust(PlayerController.facingPositive ? 1 : -1, true);
         }
 
         public override void OnExit(StateDefine next)
         {
             PlayerController.UnarmedAnimator.SetBool(MoveHash, false);
 
-            // if (Mathf.Abs(PlayerController.MoveDirection.x) > Maths.TinyNum)
-            // {
-            //     return;
-            // }
-            // _velocity.Set(0f, PlayerController.Rigidbody.velocity.y);
-            // PlayerController.Rigidbody.velocity = _velocity;
+            PlayerParticleFxEvent.TriggerRunDust(0, false);
         }
 
         public override void OnStay()
@@ -94,7 +92,11 @@ namespace Player.FSM
                     StateMachine.Translate((int)PlayerStateID.Idle);
                 }
             }
-            PlayerController.Flip();
+
+            if (PlayerController.Flip())
+            {
+                PlayerParticleFxEvent.TriggerRunDust(PlayerController.facingPositive ? 1 : -1, true);
+            }
         }
         
         

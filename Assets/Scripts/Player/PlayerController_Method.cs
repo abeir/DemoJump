@@ -31,18 +31,21 @@ namespace Player
         }
 
         
-        public void Flip()
+        public bool Flip()
         {
             if (!facingPositive && MoveDirection.x >= Maths.TinyNum)
             {
                 facingPositive = true;
                 SpriteRenderer.flipX = false;
+                return true;
             }
-            else if (facingPositive && MoveDirection.x <= -Maths.TinyNum)
+            if (facingPositive && MoveDirection.x <= -Maths.TinyNum)
             {
                 facingPositive = false;
                 SpriteRenderer.flipX = true;
+                return true;
             }
+            return false;
         }
 
         public void Flip(int direction)

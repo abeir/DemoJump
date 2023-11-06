@@ -50,7 +50,7 @@ namespace Player.FSM
 
             if (PlayerController.IsOnGround || PlayerController.IsOnSlope || pre.ID == (int)PlayerStateID.CoyoteJump)
             {
-                PlayerFxEvent.TriggerJumpDust();
+                PlayerAnimationFxEvent.TriggerJumpDust();
             }
 
             // 修改摩擦力

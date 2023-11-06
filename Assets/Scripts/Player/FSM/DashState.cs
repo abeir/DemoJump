@@ -51,7 +51,7 @@ namespace Player.FSM
 
             if (PlayerController.IsOnGround || PlayerController.IsOnSlope)
             {
-                PlayerFxEvent.TriggerDashDust();
+                PlayerAnimationFxEvent.TriggerDashDust();
             }
         }
 

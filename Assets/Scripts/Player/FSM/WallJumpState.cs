@@ -38,7 +38,7 @@ namespace Player.FSM
 
             PlayerController.UnarmedAnimator.SetBool(WallJumpHash, true);
 
-            PlayerFxEvent.TriggerJumpDust();
+            PlayerAnimationFxEvent.TriggerJumpDust();
 
             // 修改摩擦力
             PlayerController.SetZeroFriction();

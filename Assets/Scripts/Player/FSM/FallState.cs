@@ -54,7 +54,7 @@ namespace Player.FSM
 
             if (next.ID == (int)PlayerStateID.Run)
             {
-                PlayerFxEvent.TriggerLandDust();
+                PlayerAnimationFxEvent.TriggerLandDust();
             }
             // 还原摩擦力
             PlayerController.SetDefaultFriction();

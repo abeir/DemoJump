@@ -32,7 +32,7 @@ namespace Player.FSM
 
             PlayerController.UnarmedAnimator.SetBool(LandHash, true);
 
-            PlayerFxEvent.TriggerLandDust();
+            PlayerAnimationFxEvent.TriggerLandDust();
         }
 
         public override void OnExit(StateDefine next)

@@ -6,9 +6,9 @@ namespace Player.FX
 {
 
 
-    public class PlayerFXController : MonoBehaviour, IEventListener<PlayerFxEvent>
+    public class PlayerAnimationFXController : MonoBehaviour, IEventListener<PlayerAnimationFxEvent>
     {
-        private const string followDustSuffix = "_follow";      // 已此为后缀的子对象作为跟随动画效果
+        private const string FollowDustSuffix = "_follow";      // 已此为后缀的子对象作为跟随动画效果
 
         public struct FxGroup
         {
@@ -30,14 +30,7 @@ namespace Player.FX
 
         private void Awake()
         {
-            if (playerController == null)
-            {
-                playerController = transform.GetComponentInParent<PlayerController>();
-            }
-
             InitGroups();
-            // 解除子物体绑定关系
-            // transform.DetachChildren();
         }
 
 
@@ -76,7 +69,7 @@ namespace Player.FX
             fxGroup.animator.gameObject.SetActive(false);
         }
 
-        public void OnEventTriggered(PlayerFxEvent evn)
+        public void OnEventTriggered(PlayerAnimationFxEvent evn)
         {
             Play(evn.Group, evn.FX);
         }
@@ -104,7 +97,7 @@ namespace Player.FX
                 BindEvent(fxGroup.animator);
 
                 // 不以 follow 为后缀的将会被分离父子关系
-                if (!child.name.EndsWith(followDustSuffix))
+                if (!child.name.EndsWith(FollowDustSuffix))
                 {
                     detachChildren.Add(child);
                 }

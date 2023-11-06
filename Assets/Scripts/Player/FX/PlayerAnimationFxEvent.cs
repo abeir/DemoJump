@@ -2,7 +2,7 @@
 
 namespace Player.FX
 {
-    public class PlayerFxEvent : IEvent
+    public class PlayerAnimationFxEvent : IEvent
     {
         private const string dustGroupName = "DustGroup";
         private const string dustGroupFollowName = "DustGroup_follow";
@@ -10,7 +10,7 @@ namespace Player.FX
         public string Group { get; }
         public string FX { get; }
 
-        public PlayerFxEvent(string group, string fx)
+        public PlayerAnimationFxEvent(string group, string fx)
         {
             Group = group;
             FX = fx;
@@ -18,27 +18,27 @@ namespace Player.FX
 
         public static void TriggerJumpDust()
         {
-            EventManager.TriggerEvent(new PlayerFxEvent(dustGroupName, "JumpDust"));
+            EventManager.TriggerEvent(new PlayerAnimationFxEvent(dustGroupName, "JumpDust"));
         }
 
         public static void TriggerDoubleJumpDust()
         {
-            EventManager.TriggerEvent(new PlayerFxEvent(dustGroupName, "DoubleJumpDust"));
+            EventManager.TriggerEvent(new PlayerAnimationFxEvent(dustGroupName, "DoubleJumpDust"));
         }
 
         public static void TriggerDashDust()
         {
-            EventManager.TriggerEvent(new PlayerFxEvent(dustGroupName, "DashDust"));
+            EventManager.TriggerEvent(new PlayerAnimationFxEvent(dustGroupName, "DashDust"));
         }
 
         public static void TriggerLandDust()
         {
-            EventManager.TriggerEvent(new PlayerFxEvent(dustGroupName, "LandDust"));
+            EventManager.TriggerEvent(new PlayerAnimationFxEvent(dustGroupName, "LandDust"));
         }
 
         public static void TriggerSlideDust()
         {
-            EventManager.TriggerEvent(new PlayerFxEvent(dustGroupName, "SlideDust"));
+            EventManager.TriggerEvent(new PlayerAnimationFxEvent(dustGroupName, "SlideDust"));
         }
     }
 }
