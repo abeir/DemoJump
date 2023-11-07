@@ -118,12 +118,17 @@ namespace Player.FX
             var clips = animator.runtimeAnimatorController.animationClips;
             foreach (var clip in clips)
             {
+                if (clip.isLooping)
+                {
+                    continue;
+                }
                 AnimationEvent evn = new()
                 {
                     functionName = PlayerAnimationEventHandler.MethodOnAnimationGroupFinished,
                     stringParameter = animator.gameObject.name,
                     time = clip.length
                 };
+
                 clip.AddEvent(evn);
             }
             // 动画组件所在对象上必须挂载 PlayerAnimationEventHandler

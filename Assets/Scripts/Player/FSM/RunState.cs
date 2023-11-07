@@ -1,5 +1,4 @@
-﻿using Common.Helper;
-using FSM;
+﻿using FSM;
 using Player.FX;
 using UnityEngine;
 
@@ -14,6 +13,8 @@ namespace Player.FSM
         private Vector2 _direction = Vector2.zero;
         private Vector2 _velocity = Vector2.zero;
         private float _inAirStartTime;      // 记录进入空中的开始时间，每次进入Run状态时将其设置为负值，表示为不存在开始时间
+
+        private PlayerParticleFxEvent.RunDust _runDust = new();
         
         public override StateDefine State { get; } = new StateDefine
         {
@@ -39,14 +40,20 @@ namespace Player.FSM
 
             _velocity = Vector2.zero;
 
-            PlayerParticleFxEvent.TriggerRunDust(PlayerController.facingPositive ? 1 : -1, true);
+            // _runDust.direction = PlayerController.facingPositive ? 1 : -1;
+            // _runDust.start = true;
+            // _runDust.TriggerEvent();
+
+            PlayerAnimationFxEvent.TriggerRunDust();
         }
 
         public override void OnExit(StateDefine next)
         {
             PlayerController.UnarmedAnimator.SetBool(MoveHash, false);
 
-            PlayerParticleFxEvent.TriggerRunDust(0, false);
+            // _runDust.direction = PlayerController.facingPositive ? 1 : -1;
+            // _runDust.start = false;
+            // _runDust.TriggerEvent();
         }
 
         public override void OnStay()
@@ -95,7 +102,7 @@ namespace Player.FSM
 
             if (PlayerController.Flip())
             {
-                PlayerParticleFxEvent.TriggerRunDust(PlayerController.facingPositive ? 1 : -1, true);
+                PlayerAnimationFxEvent.TriggerRunDust();
             }
         }
         

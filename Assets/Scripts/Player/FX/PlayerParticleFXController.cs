@@ -51,35 +51,50 @@ namespace Player.FX
                 return;
             }
 
-            Debug.Log($"{evn.FX}  {evn.Direction}  {evn.Start}");
+            Debug.Log($"{evn.FX}");
 
-            if (!evn.Start)
+            EventHandle(particle, evn);
+        }
+
+        private void EventHandle(ParticleSystem particle, PlayerParticleFxEvent evn)
+        {
+            switch (evn.FX)
             {
+                case nameof(PlayerParticleFxEvent.RunDust):
+                    RunDustHandle(particle, evn.Param as PlayerParticleFxEvent.RunDust);
+                    break;
+            }
+        }
+
+
+
+        private void RunDustHandle(ParticleSystem particle, PlayerParticleFxEvent.RunDust runDust)
+        {
+            if (!runDust.start)
+            {
+                particle.transform.SetParent(null);
                 particle.Stop();
                 return;
             }
-            SetShape(particle, evn);
+            var shape = particle.shape;
+            shape.enabled = true;
+            if (runDust.direction == 1)
+            {
+                shape.position = runRightPosition;
+                shape.rotation = runRightRotation;
+            }
+            else if (runDust.direction == -1)
+            {
+                shape.position = runLeftPosition;
+                shape.rotation = runLeftRotation;
+            }
+            particle.transform.SetParent(transform);
+            particle.transform.position = transform.position;
             particle.Play();
         }
 
-        private void SetShape(ParticleSystem particle, PlayerParticleFxEvent evn)
-        {
-            var fx = particle.gameObject.name;
-            if (fx == PlayerParticleFxEvent.RunDust)
-            {
-                var shape = particle.shape;
-                shape.enabled = true;
-                if (evn.Direction == 1)
-                {
-                    shape.position = runRightPosition;
-                    shape.rotation = runRightRotation;
-                }
-                else if (evn.Direction == -1)
-                {
-                    shape.position = runLeftPosition;
-                    shape.rotation = runLeftRotation;
-                }
-            }
-        }
+
+
+
     }
 }

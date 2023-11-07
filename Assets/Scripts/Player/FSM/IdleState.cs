@@ -1,5 +1,6 @@
 ﻿using Common.Helper;
 using FSM;
+using Player.FX;
 using UnityEngine;
 
 namespace Player.FSM
@@ -37,9 +38,14 @@ namespace Player.FSM
         public override void OnEnter(StateDefine pre)
         {
             Debug.Log($">>> IdleState.OnEnter  pre:{pre.Name}");
-            
+
             _velocity = PlayerController.Rigidbody.velocity;
             PlayerController.UnarmedAnimator.SetBool(IdleHash, true);
+
+            if (pre.ID == (int)PlayerStateID.Run)
+            {
+                PlayerAnimationFxEvent.TriggerRunToIdleDust();
+            }
         }
 
         public override void OnExit(StateDefine next)

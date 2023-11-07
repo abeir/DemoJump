@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System.Linq;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Common.Detector
@@ -19,6 +20,8 @@ namespace Common.Detector
         public float distance;
         [SerializeField]
         public float spacing;
+        [SerializeField]
+        public string[] ignoreTags;     // 忽略的tag将不作为边缘
 
         [SerializeField]
         public Color color;
@@ -104,6 +107,12 @@ namespace Common.Detector
                 return false;
             }
             var touchVerticalPoint = _hits[0].point;
+            if (IsIgnoredTag(_hits[0]))     // 检测到碰撞到忽略的tag
+            {
+                TouchVerticalPoint = Vector2.zero;
+                TouchHorizontalPoint = Vector2.zero;
+                return false;
+            }
 
             count = Physics2D.RaycastNonAlloc(origin + new Vector2(distanceX, 0), Vector2.up, _hits, spacing, layer);
             if (count < 1)
@@ -113,6 +122,12 @@ namespace Common.Detector
                 return false;
             }
             var touchHorizontalPoint = _hits[0].point;
+            if (IsIgnoredTag(_hits[0]))     // 检测到碰撞到忽略的tag
+            {
+                TouchVerticalPoint = Vector2.zero;
+                TouchHorizontalPoint = Vector2.zero;
+                return false;
+            }
 
             count = Physics2D.RaycastNonAlloc(origin + new Vector2(0, spacing), direction, _hits, distanceX, layer);
             if (count < 1)
@@ -124,6 +139,12 @@ namespace Common.Detector
             TouchVerticalPoint = Vector2.zero;
             TouchHorizontalPoint = Vector2.zero;
             return false;
+        }
+
+        private bool IsIgnoredTag(RaycastHit2D hit)
+        {
+            var tagName = hit.transform.tag;
+            return ignoreTags.Contains(tagName);
         }
 
         private void Update()

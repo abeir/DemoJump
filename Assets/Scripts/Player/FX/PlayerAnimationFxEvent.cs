@@ -2,7 +2,7 @@
 
 namespace Player.FX
 {
-    public class PlayerAnimationFxEvent : IEvent
+    public struct PlayerAnimationFxEvent : IEvent
     {
         private const string dustGroupName = "DustGroup";
         private const string dustGroupFollowName = "DustGroup_follow";
@@ -39,6 +39,16 @@ namespace Player.FX
         public static void TriggerSlideDust()
         {
             EventManager.TriggerEvent(new PlayerAnimationFxEvent(dustGroupName, "SlideDust"));
+        }
+
+        public static void TriggerRunDust()
+        {
+            EventManager.TriggerEvent(new PlayerAnimationFxEvent(dustGroupName, "RunDust"));
+        }
+
+        public static void TriggerRunToIdleDust()
+        {
+            EventManager.TriggerEvent(new PlayerAnimationFxEvent(dustGroupName, "RunToIdleDust"));
         }
     }
 }

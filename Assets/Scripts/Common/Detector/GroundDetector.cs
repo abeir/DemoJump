@@ -20,6 +20,8 @@ namespace Common.Detector
         public bool IsOnGround => isOnGround;
 
         public bool IsOnOneWayPlatform { get; private set; }
+
+        public bool IsOnMovingPlatform { get; private set; }
         
         
         private readonly Collider2D[] _groundColliders = new Collider2D[1];
@@ -32,11 +34,10 @@ namespace Common.Detector
 
             if (count > 0)
             {
-                IsOnOneWayPlatform = _groundColliders[0].CompareTag(Tags.OneWayPlatform);
+                CheckPlatform();
                 return true;
             }
-
-            IsOnOneWayPlatform = false;
+            ResetPlatform();
             return false;
         }
 
@@ -67,6 +68,30 @@ namespace Common.Detector
             isOnGround = Detect();
         }
 
+
+        private void CheckPlatform()
+        {
+            switch (_groundColliders[0].tag)
+            {
+                case Tags.OneWayPlatform:
+                    IsOnOneWayPlatform = true;
+                    IsOnMovingPlatform = false;
+                    break;
+                case Tags.MovingPlatform:
+                    IsOnOneWayPlatform = false;
+                    IsOnMovingPlatform = true;
+                    break;
+                default:
+                    ResetPlatform();
+                    break;
+            }
+        }
+
+        private void ResetPlatform()
+        {
+            IsOnOneWayPlatform = false;
+            IsOnMovingPlatform = false;
+        }
 
 
 #if UNITY_EDITOR

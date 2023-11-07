@@ -1,26 +1,38 @@
 ﻿using Common.Event;
+using UnityEngine;
 
 namespace Player.FX
 {
-    public class PlayerParticleFxEvent : IEvent
+    public struct PlayerParticleFxEvent : IEvent
     {
-        public static readonly string RunDust = "RunDust";
 
         public string FX { get; private set; }
-        public int Direction { get; private set; }
-        public bool Start { get; private set; }
+        public object Param { get; private set; }
 
-        public PlayerParticleFxEvent(string fx, int direction, bool start)
+        public PlayerParticleFxEvent(string fx, object param)
         {
             FX = fx;
-            Direction = direction;
-            Start = start;
+            Param = param;
         }
 
-        public static void TriggerRunDust(int direction, bool start)
+        public T GetParam<T>() where T : class
         {
-            EventManager.TriggerEvent(new PlayerParticleFxEvent(RunDust, direction, start));
+            return Param as T;
         }
+
+
+
+        public class RunDust
+        {
+            public int direction;
+            public bool start;
+
+            public void TriggerEvent()
+            {
+                EventManager.TriggerEvent(new PlayerParticleFxEvent(nameof(RunDust), this));
+            }
+        }
+
 
 
     }
