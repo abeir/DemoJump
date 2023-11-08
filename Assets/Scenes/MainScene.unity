@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 49430399}
   - component: {fileID: 49430401}
   - component: {fileID: 49430400}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RunDust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4969,7 +4969,7 @@ GameObject:
   - component: {fileID: 105980236}
   - component: {fileID: 105980235}
   - component: {fileID: 105980237}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DustGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5088,7 +5088,7 @@ GameObject:
   - component: {fileID: 210216448}
   - component: {fileID: 210216449}
   - component: {fileID: 210216450}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Detector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8375,6 +8375,7 @@ GameObject:
   - component: {fileID: 1262707613}
   - component: {fileID: 1262707615}
   - component: {fileID: 1262707614}
+  - component: {fileID: 1262707616}
   m_Layer: 10
   m_Name: OneWayPlatform
   m_TagString: OneWayPlatform
@@ -8460,7 +8461,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 128
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
@@ -8513,6 +8514,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1262707616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262707611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68f3707871af47bda8f4c8a5d51b2d72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  suspendDuration: 0.5
 --- !u!1 &1290947523
 GameObject:
   m_ObjectHideFlags: 0
@@ -9033,7 +9047,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1446604054}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9069,7 +9083,7 @@ GameObject:
   - component: {fileID: 1685388670}
   - component: {fileID: 1685388669}
   - component: {fileID: 1685388671}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DustGroup_follow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9189,7 +9203,7 @@ GameObject:
   - component: {fileID: 1690911842}
   - component: {fileID: 1690911843}
   - component: {fileID: 1690911844}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Unarmed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9458,7 +9472,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1847167419}
   - component: {fileID: 1847167420}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FX_Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9506,7 +9520,7 @@ GameObject:
   - component: {fileID: 1847875147}
   - component: {fileID: 1847875148}
   - component: {fileID: 1847875149}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9615,7 +9629,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1931257800}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Animations
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9648,7 +9662,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1997280776}
   - component: {fileID: 1997280777}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FX_Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9785,7 +9799,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 128
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
@@ -9825,7 +9839,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.22261147}
+  m_Offset: {x: 0, y: 0.3620905}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -9836,7 +9850,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.554777}
+  m_Size: {x: 1, y: 0.275819}
   m_EdgeRadius: 0
 --- !u!114 &2013715239
 MonoBehaviour:
@@ -9850,6 +9864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16464890688345b3a742b02a360558d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  suspendDuration: 0.5
   durationPerPoint: 3
   leftPoint: {x: -8, y: 4.9}
   rightPoint: {x: -0.2, y: 4.9}

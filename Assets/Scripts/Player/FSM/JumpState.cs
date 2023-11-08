@@ -102,6 +102,10 @@ namespace Player.FSM
                 {
                     StateMachine.Translate((int)PlayerStateID.Run);
                 }
+                else if (!PlayerController.AxisXPressed)
+                {
+                    StateMachine.Translate((int)PlayerStateID.Idle);
+                }
             }
             PlayerController.Flip();
         }

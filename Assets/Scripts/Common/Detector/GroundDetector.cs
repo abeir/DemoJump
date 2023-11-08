@@ -26,6 +26,7 @@ namespace Common.Detector
         
         private readonly Collider2D[] _groundColliders = new Collider2D[1];
         private float _pausedTime;
+        private float _pausedCheckPlatform;     // 暂停检测平台的时长
 
         public bool Detect()
         {

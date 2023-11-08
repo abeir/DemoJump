@@ -1,5 +1,7 @@
 ﻿using Common.Helper;
+using Common.Settings;
 using FSM;
+using Platform;
 using UnityEngine;
 
 namespace Player.FSM
@@ -56,12 +58,19 @@ namespace Player.FSM
 
         public override void OnStay()
         {
+            if (PlayerController.IsOnAir)
+            {
+                StateMachine.Translate((int)PlayerStateID.Fall);
+                return;
+            }
             if (PlayerController.CrouchPressed)
             {
-                if (PlayerController.JumpPressedImpulse && PlayerController.IsOnOneWayPlatform)
+                if (PlayerController.JumpPressedThisFrame && (PlayerController.IsOnOneWayPlatform || PlayerController.IsOnMovingPlatform))
                 {
                     // TODO 跃下单向平台
                     Debug.Log("TODO 跃下单向平台");
+
+                    SuspendPlatformEvent.TriggerEvent(Layers.Player);
                 }
                 else if (PlayerController.SlidePressed)
                 {

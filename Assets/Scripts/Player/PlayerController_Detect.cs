@@ -14,6 +14,7 @@ namespace Player
         public bool IsOnAir => !IsOnGround && !IsOnSlope;
 
         public bool IsOnOneWayPlatform => _groundDetector.IsOnOneWayPlatform;
+        public bool IsOnMovingPlatform => _groundDetector.IsOnMovingPlatform;
 
         public bool IsTouchLedge => _ledgeDetector.IsTouchLedge;
         /// <summary>
